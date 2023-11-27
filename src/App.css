@@ -1,0 +1,43 @@
+/* 메인 */
+.main_event {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 85%;
+  height: 400px;
+  background-color: white;
+  border: 20px solid #ebf3e8;
+  border-radius: 0 10px 10px 10px;
+}
+.event_cate {
+  border-radius: 10px 10px 0 0;
+  margin-left: 7.5%;
+  align-self: flex-start;
+  margin-top: 60px;
+  padding: 15px;
+  background-color: #ebf3e8;
+}
+
+.event_cate > ul > li {
+  margin: 0 20px;
+  display: inline;
+  list-style: none;
+}
+
+.event_cate > ul > li > a {
+  text-decoration: none;
+  color: black;
+}
+
+.main_title {
+  margin-top: 10%;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 5%;
+  align-items: end;
+  width: 100%;
+  height: 200px;
+}

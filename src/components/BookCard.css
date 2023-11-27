@@ -1,0 +1,20 @@
+.book {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 180px;
+  height: 250px;
+  margin: 10px;
+}
+
+.book > a > img {
+  min-width: 160px;
+  max-width: 160px;
+  min-height: 180px;
+  max-height: 180px;
+  object-fit: cover;
+}
+
+.book_title > a {
+  text-decoration: none;
+}
