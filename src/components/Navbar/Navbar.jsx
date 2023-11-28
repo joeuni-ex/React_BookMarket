@@ -4,7 +4,9 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="nav_header">
-        <a href="">BookMarket</a>
+        <a href="">
+          Book <span className="nav_market">Markets</span>
+        </a>
       </div>
       <div className="nav_list">
         <ul>
