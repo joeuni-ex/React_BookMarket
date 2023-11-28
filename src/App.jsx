@@ -13,7 +13,7 @@ function App() {
           <div className="event_cate">
             <ul>
               <li>
-                <a href="">이달의 이벤트</a>
+                <a href="">베스트 셀러</a>
               </li>
               <li>
                 <a href="">이달의 이벤트</a>
@@ -27,7 +27,7 @@ function App() {
             </ul>
           </div>
           <div className="main_event ">
-            <BookList type="ItemEditorChoice" />
+            <BookList type="Bestseller" />
           </div>
           <h3 className="main_title">신간 전체 리스트</h3>
           <div className="bookList">

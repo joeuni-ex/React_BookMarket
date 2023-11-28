@@ -8,6 +8,7 @@
   background-color: white;
   border: 20px solid #edf1d6;
   border-radius: 0 10px 10px 10px;
+  overflow-x: scroll;
 }
 .event_cate {
   border-radius: 10px 10px 0 0;
@@ -22,6 +23,10 @@
   margin: 0 20px;
   display: inline;
   list-style: none;
+}
+
+.event_cate > ul > li:hover {
+  background-color: white;
 }
 
 .event_cate > ul > li > a {
