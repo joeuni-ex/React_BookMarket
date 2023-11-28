@@ -9,7 +9,7 @@ const BookList = ({ type }) => {
     const response = await fetch(
       `http://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=${
         import.meta.env.VITE_BOOK_API
-      }&QueryType=${type}&MaxResults=8&start=1&SearchTarget=Book&Cover=Big&output=js&Version=20131101`
+      }&QueryType=${type}&MaxResults=10&start=1&SearchTarget=Book&Cover=Big&output=js&Version=20131101`
     );
     const data = await response.json();
     setBooks(data.item);

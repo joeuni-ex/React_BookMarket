@@ -26,7 +26,9 @@ function App() {
               </li>
             </ul>
           </div>
-          <div className="main_event "></div>
+          <div className="main_event ">
+            <BookList type="ItemEditorChoice" />
+          </div>
           <h3 className="main_title">신간 전체 리스트</h3>
           <div className="bookList">
             <BookList type="itemNewAll" />

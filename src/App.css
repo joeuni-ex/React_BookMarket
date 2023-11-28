@@ -6,16 +6,16 @@
   width: 85%;
   height: 400px;
   background-color: white;
-  border: 20px solid #ebf3e8;
+  border: 20px solid #edf1d6;
   border-radius: 0 10px 10px 10px;
 }
 .event_cate {
   border-radius: 10px 10px 0 0;
   margin-left: 7.5%;
   align-self: flex-start;
-  margin-top: 60px;
+  margin-top: 170px;
   padding: 15px;
-  background-color: #ebf3e8;
+  background-color: #edf1d6;
 }
 
 .event_cate > ul > li {
