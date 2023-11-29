@@ -4,11 +4,11 @@
   justify-content: center;
   align-items: center;
   width: 85%;
-  height: 400px;
-  background-color: white;
-  border: 20px solid #edf1d6;
+  height: 350px;
+  background-color: #ffffff;
+  border: 10px solid #27374d;
   border-radius: 0 10px 10px 10px;
-  overflow-x: scroll;
+  overflow-x: hidden;
 }
 .event_cate {
   border-radius: 10px 10px 0 0;
@@ -16,7 +16,7 @@
   align-self: flex-start;
   margin-top: 170px;
   padding: 15px;
-  background-color: #edf1d6;
+  background-color: #27374d;
 }
 
 .event_cate > ul > li {
@@ -36,6 +36,22 @@
 
 .main_title {
   margin-top: 10%;
+}
+.main_sub_container {
+  display: flex;
+}
+.main_sub {
+  margin: 30px;
+  width: 300px;
+  height: 300px;
+  background-color: antiquewhite;
+}
+
+.main_sub2 {
+  margin: 30px;
+  width: 500px;
+  height: 300px;
+  background-color: antiquewhite;
 }
 
 footer {

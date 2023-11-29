@@ -4,7 +4,7 @@ import BookCard from "./BookCard";
 
 const BookList = ({ type }) => {
   const [books, setBooks] = useState([]);
-  //신간 리스트 (10개)
+
   const fetchBooks = async () => {
     const response = await fetch(
       `http://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=${
@@ -13,7 +13,6 @@ const BookList = ({ type }) => {
     );
     const data = await response.json();
     setBooks(data.item);
-    console.log(data.item);
   };
 
   useEffect(() => {
