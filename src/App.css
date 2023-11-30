@@ -1,5 +1,5 @@
 /* 메인 */
-.main_event {
+/* .main_event {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,6 +32,10 @@
 .event_cate > ul > li > a {
   text-decoration: none;
   color: black;
+} */
+
+.main_banner {
+  position: relative;
 }
 
 .main_title {

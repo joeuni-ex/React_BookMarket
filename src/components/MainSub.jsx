@@ -13,7 +13,7 @@ const MainSub = () => {
     setInterval(function () {
       // 3초씩 무한반복
       currentIndex++; // 1씩 증가
-      $(".sliderWrap").animate({ marginLeft: -currentIndex * 100 + "%" }, 600);
+      $(".sliderWrap").animate({ marginLeft: -currentIndex * 100 + "%" }, 1200);
       // currentIndex가 1이면 -100% 왼쪽으로 이동, 2면 -200% 이동, 3이면 -300% 이동
 
       if (currentIndex == 3) {
@@ -22,25 +22,27 @@ const MainSub = () => {
           // 한번 반복
           $(".sliderWrap").animate({ marginLeft: 0 }, 0); // 처음으로 돌아오기
           currentIndex = 0; // currentIndex 값 초기화
-        }, 700);
+        }, 1300);
       }
-    }, 4000); //setInterval 반복하는 시간
+    }, 5000); //setInterval 반복하는 시간
   });
 
   return (
-    <div id="slider">
-      <div className="sliderWrap">
-        <div className="slider">
-          <img className="sliderImg" src={subBook} alt="" />
-        </div>
-        <div className="slider">
-          <img className="sliderImg" src={subBook2} alt="" />
-        </div>
-        <div className="slider">
-          <img className="sliderImg" src={subBook3} alt="" />
+    <>
+      <div id="slider">
+        <div className="sliderWrap">
+          <div className="slider">
+            <img className="sliderImg" src={subBook} alt="" />
+          </div>
+          <div className="slider">
+            <img className="sliderImg" src={subBook2} alt="" />
+          </div>
+          <div className="slider">
+            <img className="sliderImg" src={subBook3} alt="" />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
