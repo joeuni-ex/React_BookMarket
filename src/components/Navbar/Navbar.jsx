@@ -1,11 +1,15 @@
 import React from "react";
 import "./Navbar.css";
+import { LuBookOpen } from "react-icons/lu";
+
 const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="nav_header">
         <a href="">
-          Book<span className="nav_market">Store</span>
+          <LuBookOpen />
+          Book
+          <span className="nav_market">Store</span>
         </a>
       </div>
       <div className="nav_list">
