@@ -16,15 +16,6 @@ function App() {
               <li>
                 <a href="">베스트 셀러</a>
               </li>
-              <li>
-                <a href="">이달의 이벤트</a>
-              </li>
-              <li>
-                <a href="">이달의 이벤트</a>
-              </li>
-              <li>
-                <a href="">이달의 이벤트</a>
-              </li>
             </ul>
           </div>
           <div className="main_event ">
@@ -32,10 +23,8 @@ function App() {
           </div>
 
           <div className="main_sub_container">
-            {/* <div className="main_sub"> */}
             <MainSub />
-            {/* </div> */}
-            {/* <div className="main_sub2"></div> */}
+            <MainSub />
           </div>
           <h3 className="main_title">신간 전체 리스트</h3>
           <div className="bookList">

@@ -3,7 +3,7 @@ img {
 }
 
 #slider {
-  width: 500px;
+  width: 400px;
   height: 300px;
   margin: 100px auto;
   overflow: hidden;
@@ -13,6 +13,6 @@ img {
 }
 
 .sliderImg {
-  width: 500px;
+  width: 400px;
   height: 300px;
 }
