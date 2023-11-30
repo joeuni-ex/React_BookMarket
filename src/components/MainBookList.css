@@ -1,0 +1,20 @@
+/* 가로 스크롤링 CSS */
+.scroll-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.scrollable-content {
+  display: flex;
+  white-space: nowrap;
+}
+
+.item {
+  margin-top: 50px;
+  margin-left: 50px;
+  width: 150px;
+  height: 150px;
+  cursor: grab;
+}
