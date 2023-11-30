@@ -1,0 +1,18 @@
+img {
+  vertical-align: top;
+}
+
+#slider {
+  width: 500px;
+  height: 300px;
+  margin: 100px auto;
+  overflow: hidden;
+}
+.sliderWrap {
+  display: flex;
+}
+
+.sliderImg {
+  width: 500px;
+  height: 300px;
+}

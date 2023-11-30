@@ -2,7 +2,8 @@ import "./App.css";
 
 import Navbar from "./components/Navbar/Navbar";
 import BookList from "./components/BookList";
-import MainBookList from "./MainBookList";
+import MainBookList from "./components/MainBookList";
+import MainSub from "./components/MainSub";
 
 function App() {
   return (
@@ -31,8 +32,10 @@ function App() {
           </div>
 
           <div className="main_sub_container">
-            <div className="main_sub"></div>
-            <div className="main_sub2"></div>
+            {/* <div className="main_sub"> */}
+            <MainSub />
+            {/* </div> */}
+            {/* <div className="main_sub2"></div> */}
           </div>
           <h3 className="main_title">신간 전체 리스트</h3>
           <div className="bookList">
