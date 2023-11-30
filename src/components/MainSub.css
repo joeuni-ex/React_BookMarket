@@ -13,27 +13,3 @@
   height: 500px;
   vertical-align: top;
 }
-
-.main_banner_list {
-  background-color: white;
-  padding: 20px;
-  width: 50%;
-  height: 60px;
-  position: absolute;
-  z-index: 1;
-  bottom: 0;
-  right: 0;
-}
-.main_banner_list > ul {
-  display: flex;
-}
-
-.main_banner_list > ul > li {
-  margin: 0 30px;
-  list-style: none;
-}
-
-.main_banner_list > ul > li > a {
-  color: black;
-  text-decoration: none;
-}

@@ -24,11 +24,16 @@ function App() {
             <MainBookList type="Bestseller" />
           </div> */}
           <div className="main_banner">
+            <div className="main_banner_text">
+              <p style={{ color: "black" }}>Book</p>
+              <p>Store</p>
+            </div>
+
             <MainSub />
             <div className="main_banner_list">
               <ul>
                 {mainLinks.map((link) => (
-                  <li>
+                  <li key={link.id}>
                     <a href="">{link.text}</a>
                   </li>
                 ))}

@@ -34,9 +34,53 @@
   color: black;
 } */
 
+/* 메인 배너 */
 .main_banner {
   position: relative;
 }
+.main_banner_text {
+  opacity: 0.8;
+  text-align: center;
+  padding-top: 20px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: white;
+  position: absolute;
+  top: 30%;
+  left: 5%;
+  color: black;
+  font-size: 2.5rem;
+  font-weight: 900;
+  z-index: 1;
+  color: #557c55;
+}
+
+.main_banner_list {
+  opacity: 0.9;
+  background-color: white;
+  padding: 20px;
+  width: 50%;
+  height: 60px;
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  right: 0;
+}
+.main_banner_list > ul {
+  display: flex;
+}
+
+.main_banner_list > ul > li {
+  margin: 0 30px;
+  list-style: none;
+}
+
+.main_banner_list > ul > li > a {
+  color: black;
+  text-decoration: none;
+}
+/* 메인 배너 끝 */
 
 .main_title {
   margin-top: 10%;
