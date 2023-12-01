@@ -11,7 +11,7 @@ const MainSub = () => {
     $(".sliderWrap").append($(".slider").first().clone(true)); // .sliderWrap 맨 뒤에 첫번째 .slider를 복사하기
 
     setInterval(function () {
-      // 3초씩 무한반복
+      // 5초씩 무한반복
       currentIndex++; // 1씩 증가
       $(".sliderWrap").animate({ marginLeft: -currentIndex * 100 + "%" }, 1200);
       // currentIndex가 1이면 -100% 왼쪽으로 이동, 2면 -200% 이동, 3이면 -300% 이동

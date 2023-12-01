@@ -5,6 +5,7 @@ import BookList from "./components/BookList";
 import MainBookList from "./components/MainBookList";
 import MainSub from "./components/MainSub";
 import { mainLinks } from "./data";
+import Tesx from "./components/Tesx";
 
 function App() {
   return (
@@ -48,6 +49,9 @@ function App() {
           <h3 className="main_title">주목할 만한 신간 리스트</h3>
           <div className="bookList">
             <BookList type="ItemNewSpecial" />
+          </div>
+          <div style={{ width: "80%" }}>
+            <Tesx />
           </div>
         </main>
         <footer>
