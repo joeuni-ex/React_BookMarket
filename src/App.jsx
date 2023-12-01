@@ -24,6 +24,7 @@ function App() {
        
             <MainBookList type="Bestseller" />
           </div> */}
+          {/* 메인 배너 */}
           <div className="main_banner">
             <div className="main_banner_text">
               <p style={{ color: "black" }}>Book</p>
@@ -50,7 +51,7 @@ function App() {
           <div className="bookList">
             <BookList type="ItemNewSpecial" />
           </div>
-          <div style={{ width: "80%" }}>
+          <div style={{ width: "70%" }}>
             <Tesx />
           </div>
         </main>
