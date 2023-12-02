@@ -1,42 +1,9 @@
 /* 메인 */
-/* .main_event {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 85%;
-  height: 350px;
-  background-color: #ffffff;
-  border: 10px solid #557c55;
-  border-radius: 0 10px 10px 10px;
-  overflow-x: hidden;
-}
-.event_cate {
-  border-radius: 10px 10px 0 0;
-  margin-left: 7.5%;
-  align-self: flex-start;
-  margin-top: 170px;
-  padding: 15px;
-  background-color: #557c55;
-}
-
-.event_cate > ul > li {
-  margin: 0 20px;
-  display: inline;
-  list-style: none;
-}
-
-.event_cate > ul > li:hover {
-  background-color: white;
-}
-
-.event_cate > ul > li > a {
-  text-decoration: none;
-  color: black;
-} */
 
 /* 메인 배너 */
 .main_banner {
   position: relative;
+  box-shadow: 7px 10px 10px #e3e3e3;
 }
 .main_banner_text {
   opacity: 0.8;
@@ -56,30 +23,6 @@
   color: #557c55;
 }
 
-.main_banner_list {
-  opacity: 0.9;
-  background-color: white;
-  padding: 20px;
-  width: 50%;
-  height: 60px;
-  position: absolute;
-  z-index: 1;
-  bottom: 0;
-  right: 0;
-}
-.main_banner_list > ul {
-  display: flex;
-}
-
-.main_banner_list > ul > li {
-  margin: 0 30px;
-  list-style: none;
-}
-
-.main_banner_list > ul > li > a {
-  color: black;
-  text-decoration: none;
-}
 /* 메인 배너 끝 */
 
 .main_title {

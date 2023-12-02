@@ -1,5 +1,6 @@
 /* 책 리스트 */
 .bookList {
+  box-shadow: 7px 10px 10px #e3e3e3;
   margin-top: 4%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
