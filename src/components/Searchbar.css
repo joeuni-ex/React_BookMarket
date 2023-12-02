@@ -1,0 +1,16 @@
+.searchSection {
+  margin: 150px 0 50px 0;
+  display: flex;
+}
+
+.search {
+  width: 400px;
+  height: 50px;
+  border-color: beige;
+}
+
+.searchBtn {
+  width: 100px;
+  height: 50px;
+  border: none;
+}
