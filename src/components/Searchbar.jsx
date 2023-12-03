@@ -15,15 +15,15 @@ const Searchbar = () => {
       alert("내용을 입력해 주세요!");
     } else {
       setSearchValue(e.target.value);
-      setSearchValue("");
       navigate(`/search?q=${searchValue}`); //q= 검색어로 요청한다.
+      setSearchValue("");
     }
   };
 
   //검색어 입력 시
   const handleChange = (e) => {
     setSearchValue(e.target.value);
-    console.log(searchValue);
+    //  console.log(searchValue);
   };
 
   return (
