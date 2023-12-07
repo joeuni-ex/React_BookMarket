@@ -13,6 +13,10 @@ const Home = () => {
         </div>
         <MainBanner />
       </div>
+      <h3 className="main_title">베스트셀러 </h3>
+      <div className="bookList">
+        <BookList type="Bestseller" />
+      </div>
       <h3 className="main_title">신간 전체 리스트</h3>
       <div className="bookList">
         <BookList type="itemNewAll" />
