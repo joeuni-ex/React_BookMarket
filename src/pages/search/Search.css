@@ -1,0 +1,25 @@
+.searchBookList {
+  display: flex;
+  flex-direction: column;
+}
+
+.searchBook {
+  display: flex;
+  width: 500px;
+  margin-bottom: 30px;
+  box-shadow: 5px 5px 2px 1px rgba(216, 216, 216, 0.2);
+}
+
+.book_info {
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.book_info a {
+  text-decoration: none;
+  color: black;
+  font-weight: 800;
+}
+.book_info p {
+  margin-bottom: 20px;
+}
