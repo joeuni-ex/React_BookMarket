@@ -1,9 +1,6 @@
 import "./App.css";
 
 import Navbar from "./components/Navbar/Navbar";
-import BookList from "./components/BookList";
-
-import MainBanner from "./components/MainBanner";
 import Searchbar from "./components/Searchbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Join from "./pages/Join";
