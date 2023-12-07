@@ -12,17 +12,22 @@ const Search = () => {
   const query = queryParams.get("q"); // q에 해당하는 값을 쿼리스트링에서 가져옴
   const [resultBooks, setResultBooks] = useState([]);
   const [sort, setSort] = useState("Accuracy"); //정렬
+  const [selectedSort, setSelectedSort] = useState("Accuracy"); //선택된 정렬
+  const [maxResults, setMaxResults] = useState("15"); //최대 출력
 
-  //검색어 변경 시 재 실행
+  useEffect(() => {}, [selectedSort]);
+
+  //검색어,정렬, 출력개수 변경 시 재 실행
   useEffect(() => {
     fetchBooks();
-  }, [query, sort]);
+  }, [query, sort, maxResults]);
+  //
 
   const fetchBooks = async () => {
     const response = await fetch(
       `http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${
         import.meta.env.VITE_BOOK_API
-      }&Query=${query}&QueryType=title&MaxResults=20&start=1&SearchTarget=Book&Cover=Big&Sort=${sort}&output=js&Version=20131101`
+      }&Query=${query}&QueryType=title&MaxResults=${maxResults}&start=1&SearchTarget=Book&Cover=Big&Sort=${sort}&output=js&Version=20131101`
     );
     const data = await response.json();
     setResultBooks(data.item);
@@ -30,9 +35,14 @@ const Search = () => {
   };
 
   //정렬하기
-  const handleSortChange = (e) => {
-    setSort(e.target.value);
-    console.log(sort);
+  const handleSortChange = (value) => {
+    setSelectedSort(value);
+    setSort(value);
+  };
+  //출력개수 지정
+  const handleMaxResults = (e) => {
+    setMaxResults(e.target.value);
+    console.log(maxResults);
   };
 
   return (
@@ -41,52 +51,43 @@ const Search = () => {
         "<span style={{ fontWeight: "bold" }}>{query}</span>"의 검색 결과
       </p>
       <div className="sort">
-        <form>
-          <label>
-            <input
-              onClick={handleSortChange}
-              type="radio"
-              name="sort"
-              value="Accuracy"
-              checked
-            />
+        <ul className="sortList">
+          <li
+            className={selectedSort === "Accuracy" ? "selected" : ""}
+            onClick={() => handleSortChange("Accuracy")}
+          >
             정확도순
-          </label>
-          <label>
-            <input
-              onClick={handleSortChange}
-              type="radio"
-              name="sort"
-              value="PublishTime"
-            />
+          </li>
+          <li
+            className={selectedSort === "PublishTime" ? "selected" : ""}
+            onClick={() => handleSortChange("PublishTime")}
+          >
             출간일순
-          </label>
-          <label>
-            <input
-              onClick={handleSortChange}
-              type="radio"
-              name="sort"
-              value="SalesPoint"
-            />
+          </li>
+          <li
+            className={selectedSort === "Title" ? "selected" : ""}
+            onClick={() => handleSortChange("Title")}
+          >
+            제목순
+          </li>
+          <li
+            className={selectedSort === "SalesPoint" ? "selected" : ""}
+            onClick={() => handleSortChange("SalesPoint")}
+          >
             판매량순
-          </label>
-          <label>
-            <input
-              onClick={handleSortChange}
-              type="radio"
-              name="sort"
-              value="CustomerRating"
-            />
+          </li>
+          <li
+            className={selectedSort === "CustomerRating" ? "selected" : ""}
+            onClick={() => handleSortChange("CustomerRating")}
+          >
             고객평점순
-          </label>
-        </form>
+          </li>
+        </ul>
 
-        {/* <select value={sort} onChange={handleSortChange}>
-          <option value="Accuracy">정확도순</option>
-          <option value="PublishTime ">출간일순</option>
-          <option value="SalesPoint ">판매량순</option>
-          <option value="CustomerRating">고객평점순</option>
-        </select> */}
+        <select value={maxResults} onChange={handleMaxResults}>
+          <option value="15">15개</option>
+          <option value="25">25개</option>
+        </select>
       </div>
       <div className="searchBookList">
         {resultBooks.map((book) => (

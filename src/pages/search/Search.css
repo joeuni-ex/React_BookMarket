@@ -10,7 +10,7 @@
   display: flex;
   max-width: 960px;
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   box-shadow: 5px 5px 2px 1px rgba(216, 216, 216, 0.2);
 }
 
@@ -36,6 +36,20 @@
   margin-bottom: 50px;
   justify-content: left;
 }
-.sort form label {
-  margin: 10px;
+.sortList {
+  width: 90%;
+  list-style: none;
+  display: flex;
+}
+.sortList li {
+  padding: 15px;
+  cursor: pointer;
+}
+.sort select {
+  width: 100px;
+}
+
+/* 선택된 정렬 */
+.selected {
+  background-color: rgb(227, 227, 227);
 }
