@@ -67,8 +67,8 @@ export default () => {
             disableOnInteraction: false, // 내가 슬라이드를 건들면 자동으로 넘어갈건지 여부 (마우스로 꾹 누르고 있으면 안넘어감)
           }}
           pagination={pagination} //페이지 네이션
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
+          // onSlideChange={() => console.log("slide change")}
+          // onSwiper={(swiper) => console.log(swiper)}
         >
           {mainBanners.map((banner) => (
             <SwiperSlide key={banner.id}>
