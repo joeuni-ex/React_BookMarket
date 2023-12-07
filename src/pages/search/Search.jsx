@@ -42,13 +42,13 @@ const Search = () => {
       </p>
       <div className="sort">
         <form>
-          <p>정렬하기</p>
           <label>
             <input
               onClick={handleSortChange}
               type="radio"
               name="sort"
               value="Accuracy"
+              checked
             />
             정확도순
           </label>
