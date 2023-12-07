@@ -10,11 +10,12 @@ const Join = () => {
         Book
         <span className="nav_market">Store</span>
       </div>
-      <h1>Login</h1>
+      <h1>회원가입</h1>
       <form>
-        <input type="email" placeholder="이메일을 입력하세요..." />
-        <input type="password" placeholder="비밀번호를 입력하세요..." />
-        <input className="loginBtn" type="submit" value="로그인" />
+        <input type="text" placeholder="이름" />
+        <input type="email" placeholder="이메일" />
+        <input type="password" placeholder="비밀번호" />
+        <input className="loginBtn" type="submit" value="회원가입" />
       </form>
     </div>
   );
