@@ -11,6 +11,7 @@ const SeachBookCard = ({ book }) => {
           <a href={book.link}>{book.title}</a>
           <p>{book.author}</p>
           <p>출판사 : {book.publisher}</p>
+          <p>출판일자 : {book.pubDate}</p>
           <p>정가 : {book.priceStandard}</p>
           <p>할인가 : {book.priceSales}</p>
         </div>
