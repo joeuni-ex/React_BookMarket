@@ -1,11 +1,13 @@
 import React from "react";
 import MainBanner from "../components/MainBanner";
 import BookList from "../components/BookList";
+import Searchbar from "../components/Searchbar";
 
 const Home = () => {
   return (
     <>
       {/* 메인 배너 */}
+      <Searchbar />
       <div className="main_banner">
         <div className="main_banner_text">
           <p style={{ color: "black" }}>Book</p>
