@@ -27,3 +27,15 @@
 .book_info p {
   margin-bottom: 20px;
 }
+
+/* 정렬 */
+.sort {
+  display: flex;
+  width: 100%;
+  max-width: 960px;
+  margin-bottom: 50px;
+  justify-content: left;
+}
+.sort form label {
+  margin: 10px;
+}
