@@ -1,7 +1,6 @@
 import "./App.css";
 
 import Navbar from "./components/Navbar/Navbar";
-import Searchbar from "./components/Searchbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Join from "./pages/Join";
 import Login from "./pages/Login";
@@ -16,7 +15,6 @@ function App() {
         <div>
           <Navbar />
           <main>
-            <Searchbar />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/search" element={<Search />} />
