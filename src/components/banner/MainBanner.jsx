@@ -21,7 +21,7 @@ export default () => {
   const SwiperStyle = styled.div`
     .swiper {
       z-index: 0;
-      width: 1200px;
+      width: 1500px;
       height: 600px;
       overflow: hidden;
       padding-bottom: 0px;

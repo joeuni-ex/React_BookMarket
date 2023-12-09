@@ -1,6 +1,6 @@
 .sliderImg {
   position: relative;
-  width: 1200px;
+  width: 1500px;
   height: 600px;
   opacity: 0.9;
   z-index: 0;
@@ -20,7 +20,7 @@
 
 .bannerImgContent {
   right: 0;
-  width: 1200px;
+  width: 1500px;
   height: 600px;
   position: absolute;
   background-color: black;
