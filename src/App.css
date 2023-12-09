@@ -26,8 +26,10 @@
 /* 메인 배너 끝 */
 
 .main_title {
+  width: 100%;
+  margin-left: 10%;
   margin-top: 10%;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
 }
 .main_sub_container {
   display: flex;

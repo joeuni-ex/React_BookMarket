@@ -9,10 +9,10 @@ const BookCard = ({ book }) => {
           <img src={book.cover} alt="img" />
         </a>
         <div className="book_title">
-          <a href={book.link}>{book.title.trim().slice(0, 12) + "..."}</a>
-        </div>
-        <div>
-          <a href={book.link}></a>
+          <a href={book.link}>{book.title.trim().slice(0, 15) + "..."}</a>
+          <p style={{ fontSize: "0.8rem" }}>
+            {book.author.trim().slice(0, 15)}
+          </p>
         </div>
       </div>
     </>

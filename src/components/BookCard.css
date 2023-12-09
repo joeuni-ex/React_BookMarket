@@ -18,4 +18,5 @@
 .book_title > a {
   text-decoration: none;
   color: black;
+  font-size: 0.9rem;
 }
