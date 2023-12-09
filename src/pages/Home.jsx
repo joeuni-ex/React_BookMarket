@@ -7,7 +7,6 @@ const Home = () => {
   return (
     <>
       {/* 메인 배너 */}
-      <Searchbar />
       <div className="main_banner">
         <div className="main_banner_text">
           <p style={{ color: "black" }}>Book</p>

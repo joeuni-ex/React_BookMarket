@@ -4,6 +4,7 @@ import BookCard from "../../components/BookCard";
 // import "../../components/BookList.css";
 import "./Search.css";
 import SeachBookCard from "./SearchBookCard";
+import Searchbar from "../../components/Searchbar";
 
 const Search = () => {
   //검색어로 넘어오는 파라미터 가져오기
