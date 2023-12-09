@@ -116,18 +116,28 @@ const Searchbar = () => {
                 <>
                   <div className="resultDetailHead">
                     <div className="resultDetailCover">
-                      <img src={bookDetails[onFocus].cover} alt="" />
+                      <a href={bookDetails[onFocus].link}>
+                        <img src={bookDetails[onFocus].cover} alt="" />
+                      </a>
                     </div>
                     <div>
-                      <p
+                      <a
                         style={{
-                          fontSize: "0.9rem",
-                          fontWeight: "bold",
-                          margin: "5px",
+                          textDecoration: "none",
+                          color: "black",
                         }}
+                        href={bookDetails[onFocus].link}
                       >
-                        {bookDetails[onFocus].title}
-                      </p>
+                        <p
+                          style={{
+                            fontSize: "0.9rem",
+                            fontWeight: "bold",
+                            margin: "5px",
+                          }}
+                        >
+                          {bookDetails[onFocus].title}
+                        </p>
+                      </a>
                       <p
                         style={{
                           fontSize: "0.8rem",
