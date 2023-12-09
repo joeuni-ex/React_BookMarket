@@ -9,7 +9,7 @@ import "swiper/css";
 import "Swiper/css/pagination";
 import styled from "styled-components";
 import BannerItem from "./BannerItem";
-import { mainBanners } from "../data";
+import { mainBanners } from "../../data";
 
 export default () => {
   const SlideDiv = styled.div`

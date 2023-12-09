@@ -1,5 +1,5 @@
 import React from "react";
-import MainBanner from "../components/MainBanner";
+import MainBanner from "../components/banner/MainBanner";
 import BookList from "../components/BookList";
 import Searchbar from "../components/Searchbar";
 
@@ -14,7 +14,7 @@ const Home = () => {
         </div>
         <MainBanner />
       </div>
-      <h3 className="main_title">베스트셀러 </h3>
+      <h3 className="main_title">베스트셀러 TOP 10 </h3>
       <div className="bookList">
         <BookList type="Bestseller" />
       </div>
