@@ -21,16 +21,22 @@
   height: 50px;
   color: #527853;
 }
-
+/* 실시간 검색창 */
 .resultBooks {
+  display: flex;
   border: 1px solid #527853;
   z-index: 1;
   position: absolute;
   left: 0;
   top: 50px;
-  width: 500px;
-  height: 370px;
+  width: 750px;
+  height: 400px;
   background-color: white;
+  padding: 20px;
+}
+/* 왼쪽 검색어 출력*/
+.resultTitle {
+  width: 50%;
 }
 
 .resultBooks ul {
@@ -42,7 +48,6 @@
 .resultBooks ul a {
   text-decoration: none;
   color: black;
-  margin-left: 30px;
 }
 
 .resultBooks ul a :hover {
@@ -51,4 +56,38 @@
 
 .resultBooks ul a li {
   margin-top: 20px;
+}
+
+/* 오른쪽 디테일 출력 */
+
+.resultDetail {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 100%;
+}
+.resultDetailHead {
+  padding-top: 20px;
+  padding-left: 20px;
+  display: flex;
+  justify-content: space-between;
+  height: 50%;
+}
+
+.resultDetailCover {
+  width: 40%;
+  margin-right: 10px;
+}
+.resultDetailCover img {
+  width: 120px;
+  height: 150px;
+}
+
+.resultDetailBody {
+  border: 1px solid #527853;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  height: 50%;
+  font-size: 0.8rem;
 }
