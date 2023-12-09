@@ -1,7 +1,7 @@
 import React from "react";
 import MainBanner from "../components/banner/MainBanner";
 import BookList from "../components/BookList";
-import Searchbar from "../components/Searchbar";
+import BestSeller from "../components/BestSeller";
 
 const Home = () => {
   return (
@@ -16,7 +16,7 @@ const Home = () => {
       </div>
       <h3 className="main_title">베스트셀러 TOP 10 </h3>
       <div className="bookList">
-        <BookList type="Bestseller" />
+        <BestSeller type="Bestseller" />
       </div>
       <h3 className="main_title">신간 전체 리스트</h3>
       <div className="bookList">
