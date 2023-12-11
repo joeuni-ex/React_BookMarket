@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 import { LuBookOpen } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const user = auth.currentUser; //현재 접속 유저
-  console.log(user);
+  //console.log(user);
   //로그아웃 함수
   const logOut = () => {
     auth.signOut();
+    navigate("/");
   };
+
   return (
     <>
       <nav className="navbar">
