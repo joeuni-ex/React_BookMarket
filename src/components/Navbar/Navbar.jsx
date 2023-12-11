@@ -1,9 +1,15 @@
 import React from "react";
 import "./Navbar.css";
 import { LuBookOpen } from "react-icons/lu";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { auth } from "../../firebase";
 
 const Navbar = () => {
+  const user = auth.currentUser; //현재 접속 유저
+  //로그아웃 함수
+  const logOut = () => {
+    auth.signOut();
+  };
   return (
     <>
       <nav className="navbar">
@@ -16,16 +22,22 @@ const Navbar = () => {
         </div>
         <div className="nav_list">
           <ul>
-            <li>
-              <Link to="/user/join">회원가입</Link>
-            </li>
-            <li>
-              <Link to="/user/login">로그인</Link>
-            </li>
+            {/* 현재 로그인 중인 유저가 아니면 */}
+            {!user && (
+              <>
+                <li>
+                  <Link to="/user/join">회원가입</Link>
+                </li>
+                <li>
+                  <Link to="/user/login">로그인</Link>
+                </li>
+              </>
+            )}
+            {/* 현재 로그인중이면*/}
+            {user && <li onClick={logOut}>로그아웃</li>}
           </ul>
         </div>
       </nav>
-      {/* 자식 컴포넌트 */}
     </>
   );
 };
