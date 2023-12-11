@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { GoogleAuthProvider, getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIRE_API,
@@ -16,4 +16,7 @@ const app = initializeApp(firebaseConfig);
 //파이어베이스 인증
 const auth = getAuth();
 
-export { auth };
+//구글 인증 객체
+const googleAuth = new GoogleAuthProvider();
+
+export { auth, googleAuth };
