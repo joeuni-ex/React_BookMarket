@@ -26,6 +26,7 @@
   margin: 0 10px;
   list-style: none;
   display: inline;
+  cursor: pointer;
 }
 
 .nav_list > ul > li > a {
