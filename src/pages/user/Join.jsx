@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { LuBookOpen } from "react-icons/lu";
 import "./Login.css";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
+import { FirebaseError } from "firebase/app";
 
 const Join = () => {
   const [isLoading, setLoading] = useState(false); //로딩
@@ -28,6 +29,7 @@ const Join = () => {
   // 회원가입 버튼 클릭 시
   const onSubmit = async (e) => {
     e.preventDefault();
+    setError(""); //에러 초기화
     if (isLoading || name === "" || email === "" || password === "") return;
 
     //회원가입 실행
@@ -45,9 +47,31 @@ const Join = () => {
       });
       navigate("/"); //회원가입 후 기본페이지로 이동
     } catch (e) {
-      console.log(e);
+      if (e instanceof FirebaseError) setError(e.code);
     } finally {
       setLoading(false);
+    }
+  };
+
+  //에러 표시
+  const errorMessageToKorean = (error) => {
+    switch (error) {
+      case "auth/invalid-login-credentials":
+      case "auth/invalid-credential":
+      case "auth/user-not-found" || "auth/wrong-password":
+        return "이메일 혹은 비밀번호가 일치하지 않습니다.";
+      case "auth/email-already-in-use":
+        return "이미 사용 중인 이메일입니다.";
+      case "auth/weak-password":
+        return "비밀번호는 6글자 이상이어야 합니다.";
+      case "auth/network-request-failed":
+        return "네트워크 연결에 실패 하였습니다.";
+      case "auth/invalid-email":
+        return "잘못된 이메일 형식입니다.";
+      case "auth/internal-error":
+        return "잘못된 요청입니다.";
+      default:
+        return "에러가 발생했습니다.";
     }
   };
 
@@ -82,6 +106,16 @@ const Join = () => {
         {!isLoading && (
           <input className="loginBtn" type="submit" value="회원가입" />
         )}
+
+        {error && (
+          <span style={{ color: "red", textAlign: "center", marginTop: "5%" }}>
+            {errorMessageToKorean(error)}
+          </span>
+        )}
+
+        <p>
+          이미 계정이 있습니까? <Link to="/user/login"> 로그인 </Link>
+        </p>
       </form>
     </div>
   );
