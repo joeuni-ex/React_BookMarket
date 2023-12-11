@@ -6,6 +6,7 @@ import { auth } from "../../firebase";
 
 const Navbar = () => {
   const user = auth.currentUser; //현재 접속 유저
+  console.log(user);
   //로그아웃 함수
   const logOut = () => {
     auth.signOut();
@@ -34,7 +35,12 @@ const Navbar = () => {
               </>
             )}
             {/* 현재 로그인중이면*/}
-            {user && <li onClick={logOut}>로그아웃</li>}
+            {user && (
+              <>
+                <li>{user.displayName}님 환영합니다!</li>
+                <li onClick={logOut}>로그아웃</li>
+              </>
+            )}
           </ul>
         </div>
       </nav>
