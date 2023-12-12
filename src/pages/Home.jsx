@@ -1,7 +1,7 @@
 import React from "react";
 import MainBanner from "../components/banner/MainBanner";
-import BookList from "../components/BookList";
-import BestSeller from "../components/BestSeller";
+import BookList from "../components/book/BookList";
+import BestSeller from "../components/book/BestSeller";
 
 const Home = () => {
   return (

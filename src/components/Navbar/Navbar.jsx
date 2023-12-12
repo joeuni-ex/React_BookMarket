@@ -48,6 +48,9 @@ const Navbar = () => {
             {user ? (
               <>
                 <li>{user.displayName}님 환영합니다!</li>
+                <li>
+                  <Link to="/user/mypage">마이페이지</Link>
+                </li>
                 <li onClick={logOut}>로그아웃</li>
               </>
             ) : (

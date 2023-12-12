@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Search from "./pages/search/Search";
 import HomeLayout from "./pages/layout/HomeLayout";
 import UserLayout from "./pages/layout/UserLayout";
+import UserPage from "./pages/user/UserPage";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
     children: [
       { path: "join", element: <Join />, errorElement: <NotFound /> },
       { path: "login", element: <Login />, errorElement: <NotFound /> },
+      { path: "mypage", element: <UserPage />, errorElement: <NotFound /> },
     ],
   },
 ]);
