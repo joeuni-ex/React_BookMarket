@@ -8,6 +8,7 @@ import Search from "./pages/search/Search";
 import HomeLayout from "./pages/layout/HomeLayout";
 import UserLayout from "./pages/layout/UserLayout";
 import UserPage from "./pages/user/UserPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +27,16 @@ const router = createBrowserRouter([
     children: [
       { path: "join", element: <Join />, errorElement: <NotFound /> },
       { path: "login", element: <Login />, errorElement: <NotFound /> },
-      { path: "mypage", element: <UserPage />, errorElement: <NotFound /> },
+      {
+        //마이페이지는 회원만 사용 가능함
+        path: "mypage",
+        element: (
+          <ProtectedRoute>
+            <UserPage />
+          </ProtectedRoute>
+        ),
+        errorElement: <NotFound />,
+      },
     ],
   },
 ]);
