@@ -7,8 +7,8 @@ import { FaGithub } from "react-icons/fa";
 // 리액트 라우터
 import { Link, useNavigate } from "react-router-dom";
 // firebase
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, githubAuth, googleAuth } from "../../firebase";
 import { FirebaseError } from "firebase/app";
 import { errorMessageToKorean } from "./auth-components";
 
@@ -54,6 +54,27 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  //구글 인증
+  const signInWithGoogle = async () => {
+    try {
+      await signInWithPopup(auth, googleAuth); //팝업창 생성
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // //깃허브 인증
+  const signInWithGithub = async () => {
+    try {
+      await signInWithPopup(auth, githubAuth);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="formContainer">
       <div className="logo">
@@ -89,15 +110,18 @@ const Login = () => {
         </span>
       )}
       <div className="loginIcon">
-        <div className="snsLogin">
+        <div className="snsLogin" onClick={signInWithGoogle}>
           <FcGoogle />
         </div>
-        <div className="snsLogin">
+        <div className="snsLogin" onClick={signInWithGithub}>
           <FaGithub />
         </div>
       </div>
       <p>
-        계정이 없으신가요? <Link to="/user/join"> 가입하기 </Link>
+        계정이 없으신가요?
+        <Link to="/user/join" style={{ textDecoration: "none" }}>
+          <span style={{ color: "#527853", fontWeight: "bold" }}>가입하기</span>
+        </Link>
       </p>
     </div>
   );
