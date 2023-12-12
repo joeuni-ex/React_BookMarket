@@ -6,10 +6,10 @@ import { IoMdHeart } from "react-icons/io";
 import { FaStar } from "react-icons/fa";
 
 const SeachBookCard = ({ book }) => {
-  const [heart, setHeart] = useState(false);
+  const [onHeart, setOnHeart] = useState(false); //하트 클릭 시 색상 변경
 
   const handleClick = () => {
-    setHeart(!heart);
+    setOnHeart(!onHeart);
   };
 
   return (
@@ -84,13 +84,12 @@ const SeachBookCard = ({ book }) => {
         </div>
         <div className="SearchBookCard-Btn">
           <div>
-            {!heart && (
+            {!onHeart ? (
               <IoIosHeartEmpty
                 onClick={handleClick}
                 style={{ color: "red", fontSize: "1.5rem", cursor: "pointer" }}
               />
-            )}
-            {heart && (
+            ) : (
               <IoMdHeart
                 onClick={handleClick}
                 style={{ color: "red", fontSize: "1.5rem", cursor: "pointer" }}
