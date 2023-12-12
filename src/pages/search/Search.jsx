@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import BookCard from "../../components/BookCard";
+import BookCard from "../../components/book/BookCard";
 // import "../../components/BookList.css";
 import "./Search.css";
 import SeachBookCard from "./SearchBookCard";
