@@ -10,17 +10,14 @@ import {
   addDoc,
   collection,
   deleteDoc,
-  deleteField,
   getDocs,
   query,
-  updateDoc,
   where,
 } from "firebase/firestore";
 import { useEffect } from "react";
 
 const SeachBookCard = ({ book }) => {
   const [onHeart, setOnHeart] = useState(false); //하트 클릭 시 색상 변경
-  const [getInterestBook, setGetInterestBook] = useState([]);
   const [interestBook, setinterestBook] = useState(""); //관심도서 isbn
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -67,8 +64,8 @@ const SeachBookCard = ({ book }) => {
               username: user.displayName, // 유저 이름
               userId: user.uid, // 유저 아이디
             });
-          } catch (e) {
-            console.log(e);
+          } catch (error) {
+            console.log(error);
           }
         }
       } else {
@@ -123,7 +120,7 @@ const SeachBookCard = ({ book }) => {
     };
 
     fetchInterestBooks();
-  }, [book.isbn, user.uid]);
+  }, [book.isbn, user.uid]); // 로그인 유저와 book.isbn 변경될 때 마다
 
   return (
     <>
@@ -211,7 +208,6 @@ const SeachBookCard = ({ book }) => {
           </div>
           <button>장바구니</button>
           <button>구매하기</button>
-          <button>재고조회</button>
         </div>
       </div>
     </>
