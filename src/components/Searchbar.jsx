@@ -206,7 +206,11 @@ const Searchbar = () => {
                     {/* {console.log(bookDetails[onFocus].item[0])} */}
                   </div>
                   <div className="resultDetailBody">
-                    <p>{bookDetails[onFocus].description}</p>
+                    {bookDetails[onFocus].description.length > 1 ? (
+                      <p>{bookDetails[onFocus].description}</p>
+                    ) : (
+                      <p>상세 설명이 없습니다.</p>
+                    )}
                   </div>
                 </>
               )}
