@@ -14,6 +14,7 @@ import {
   getDocs,
   query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { useEffect } from "react";
 
@@ -27,7 +28,7 @@ const SeachBookCard = ({ book }) => {
 
   useEffect(() => {
     const addInterestBook = async () => {
-      console.log(interestBook);
+      //console.log(interestBook);
       if (isLoading || interestBook === "") return;
 
       try {
@@ -58,8 +59,17 @@ const SeachBookCard = ({ book }) => {
           navigate("/user/login");
         } else {
           setOnHeart(true);
-          setinterestBook(book.isbn);
-          //console.log(book.isbn);
+          // Update database directly here
+          try {
+            await addDoc(collection(db, "interestBooks"), {
+              interestBook: book.isbn, //BOOK ID
+              createdAt: Date.now(), // 생성일자 오늘
+              username: user.displayName, // 유저 이름
+              userId: user.uid, // 유저 아이디
+            });
+          } catch (e) {
+            console.log(e);
+          }
         }
       } else {
         alert("취소");
@@ -68,33 +78,52 @@ const SeachBookCard = ({ book }) => {
     } else if (onHeart) {
       if (confirm("관심 도서에서 제거하겠습니까?")) {
         setOnHeart(false);
-        //데이터 베이스에서 지워야함
-        const interestBookRef = collection(db, "interestBooks", interestBook);
-        await deleteDoc(interestBookRef);
+        if (user) {
+          try {
+            const q = query(
+              collection(db, "interestBooks"),
+              where("userId", "==", user.uid),
+              where("interestBook", "==", book.isbn)
+            );
+            const querySnapshot = await getDocs(q);
+
+            querySnapshot.forEach(async (doc) => {
+              try {
+                await deleteDoc(doc.ref);
+                console.log("Deleted successfully!");
+              } catch (error) {
+                console.error("Error deleting document:", error);
+              }
+            });
+          } catch (error) {
+            console.error("Error querying document:", error);
+          }
+        }
       } else {
         return;
       }
     }
   };
-
-  //관심목록 가져오는 함수
-  const fetchInterestBooks = async () => {
-    const q = query(collection(db, "interestBooks"));
-
-    const snapshot = await getDocs(q);
-
-    const InterestBooks = snapshot.docs.map((doc) => {
-      const { interestBook, userId } = doc.data();
-      return {
-        interestBook,
-        userId,
-      };
-    });
-    setGetInterestBook(InterestBooks);
-  };
   useEffect(() => {
-    fetchInterestBooks(); //모든 관심 목록 가져오기
-  }, []);
+    //관심목록 가져오는 함수
+    const fetchInterestBooks = async () => {
+      //현재 로그인중인 유저의 관심 목록만 가져온다
+      const q = query(
+        collection(db, "interestBooks"),
+        where("userId", "==", user.uid)
+      );
+
+      const snapshot = await getDocs(q);
+
+      const userInterestBooks = snapshot.docs.map(
+        (doc) => doc.data().interestBook
+      );
+      const isBookInInterest = userInterestBooks.includes(book.isbn);
+      setOnHeart(isBookInInterest);
+    };
+
+    fetchInterestBooks();
+  }, [book.isbn, user.uid]);
 
   return (
     <>
