@@ -65,7 +65,7 @@ const Join = () => {
         Book
         <span className="nav_market">Store</span>
       </div>
-      <h1>회원가입</h1>
+      <h2>회원가입</h2>
       <form onSubmit={onSubmit}>
         <input onChange={onChange} name="name" type="text" placeholder="이름" />
         <input
@@ -95,11 +95,13 @@ const Join = () => {
             {errorMessageToKorean(error)}
           </span>
         )}
-
-        <p>
-          이미 계정이 있습니까? <Link to="/user/login"> 로그인 </Link>
-        </p>
       </form>
+      <p>
+        이미 계정이 있습니까?
+        <Link to="/user/login" style={{ textDecoration: "none" }}>
+          <span style={{ color: "#527853", fontWeight: "bold" }}>로그인</span>
+        </Link>
+      </p>
     </div>
   );
 };
