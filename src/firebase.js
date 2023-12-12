@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { GoogleAuthProvider, getAuth } from "firebase/auth";
+import { GithubAuthProvider, GoogleAuthProvider, getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIRE_API,
@@ -19,4 +20,10 @@ const auth = getAuth();
 //구글 인증 객체
 const googleAuth = new GoogleAuthProvider();
 
-export { auth, googleAuth };
+//깃허브 인증 객체
+const githubAuth = new GithubAuthProvider();
+
+//fire store db 사용
+const db = getFirestore();
+
+export { auth, googleAuth, db, githubAuth };
