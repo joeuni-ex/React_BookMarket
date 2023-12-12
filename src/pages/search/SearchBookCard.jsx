@@ -1,7 +1,9 @@
 import { useState } from "react";
 import "./Search.css";
+//리액트 아이콘
 import { IoIosHeartEmpty } from "react-icons/io";
 import { IoMdHeart } from "react-icons/io";
+import { FaStar } from "react-icons/fa";
 
 const SeachBookCard = ({ book }) => {
   const [heart, setHeart] = useState(false);
@@ -9,6 +11,7 @@ const SeachBookCard = ({ book }) => {
   const handleClick = () => {
     setHeart(!heart);
   };
+
   return (
     <>
       <div className="searchBook">
@@ -22,7 +25,7 @@ const SeachBookCard = ({ book }) => {
             <div className="book_title">
               <a href={book.link}>{book.title}</a>
             </div>
-            <p>{book.author}</p>
+            <p>저자/아티스트 : {book.author}</p>
             <p>출판사 : {book.publisher}</p>
             <p>출판일자 : {book.pubDate}</p>
             <div style={{ display: "flex" }}>
@@ -57,7 +60,26 @@ const SeachBookCard = ({ book }) => {
               >
                 {book.priceStandard}원
               </p>
+              <p
+                style={{
+                  lineHeight: "26px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "lighter",
+                  fontSize: "0.9rem",
+                  margin: "5px",
+                }}
+              >
+                {" "}
+                | {book.mileage}p 적립
+              </p>
             </div>
+            <p>
+              <FaStar style={{ color: "#FFF78A" }} />
+              <span style={{ fontSize: "0.9rem" }}>
+                {" "}
+                {`(${book.customerReviewRank})`}
+              </span>
+            </p>
           </div>
         </div>
         <div className="SearchBookCard-Btn">
