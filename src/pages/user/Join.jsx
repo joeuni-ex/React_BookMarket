@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+// 리액트 아이콘
 import { LuBookOpen } from "react-icons/lu";
-import "./Login.css";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+// 리액트 라우터
 import { Link, useNavigate } from "react-router-dom";
+//style
+import "./Login.css";
+//firebase
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase";
 import { FirebaseError } from "firebase/app";
 import { errorMessageToKorean } from "./auth-components";

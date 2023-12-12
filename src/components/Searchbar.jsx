@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Searchbar.css";
 import { FaSearch } from "react-icons/fa";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Searchbar = () => {
   const [searchValue, setSearchValue] = useState("");
