@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import BookCard from "../../components/book/BookCard";
 // import "../../components/BookList.css";
 import "./Search.css";
 import SeachBookCard from "./SearchBookCard";
-import Searchbar from "../../components/Searchbar";
 
 const Search = () => {
   //검색어로 넘어오는 파라미터 가져오기
@@ -15,8 +13,9 @@ const Search = () => {
   const [sort, setSort] = useState("Accuracy"); //정렬
   const [selectedSort, setSelectedSort] = useState("Accuracy"); //선택된 정렬
   const [maxResults, setMaxResults] = useState("15"); //최대 출력
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {}, [selectedSort]);
+  useEffect(() => {}, [selectedSort]); //정렬이 변경 될 때마다 실행(정렬 버튼의 active효과)
 
   //검색어,정렬, 출력개수 변경 시 재 실행
   useEffect(() => {
@@ -25,6 +24,7 @@ const Search = () => {
   //
 
   const fetchBooks = async () => {
+    setIsLoading(true);
     const response = await fetch(
       `http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${
         import.meta.env.VITE_BOOK_API
@@ -32,7 +32,8 @@ const Search = () => {
     );
     const data = await response.json();
     setResultBooks(data.item);
-    console.log(resultBooks);
+    setIsLoading(false);
+    //console.log(resultBooks);
   };
 
   //정렬하기
@@ -94,6 +95,7 @@ const Search = () => {
         {resultBooks.map((book) => (
           <SeachBookCard key={book.itemId} book={book} />
         ))}
+        {isLoading && <p>로딩중...</p>}
       </div>
     </>
   );
