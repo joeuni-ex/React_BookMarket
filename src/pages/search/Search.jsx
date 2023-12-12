@@ -44,7 +44,7 @@ const Search = () => {
   //출력개수 지정
   const handleMaxResults = (e) => {
     setMaxResults(e.target.value);
-    console.log(maxResults);
+    // console.log(maxResults);
   };
 
   return (
