@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import "./Login.css";
+// 리액트 아이콘
 import { LuBookOpen } from "react-icons/lu";
 import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
+// 리액트 라우터
 import { Link, useNavigate } from "react-router-dom";
+// firebase
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 import { FirebaseError } from "firebase/app";
@@ -57,21 +61,21 @@ const Login = () => {
         Book
         <span className="nav_market">Store</span>
       </div>
-      <h1>로그인</h1>
+
       <form onSubmit={onSubmit}>
         <input
           onChange={onChange}
           name="email"
           value={email}
           type="email"
-          placeholder="이메일을 입력하세요..."
+          placeholder="이메일"
         />
         <input
           onChange={onChange}
           value={password}
           name="password"
           type="password"
-          placeholder="비밀번호를 입력하세요..."
+          placeholder="비밀번호"
         />
         <input
           className="loginBtn"
@@ -84,8 +88,13 @@ const Login = () => {
           {errorMessageToKorean(error)}
         </span>
       )}
-      <div className="googleLogin">
-        <FcGoogle />
+      <div className="loginIcon">
+        <div className="snsLogin">
+          <FcGoogle />
+        </div>
+        <div className="snsLogin">
+          <FaGithub />
+        </div>
       </div>
       <p>
         계정이 없으신가요? <Link to="/user/join"> 가입하기 </Link>
