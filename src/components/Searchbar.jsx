@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./Searchbar.css";
-import { FaSearch } from "react-icons/fa";
+// 리액트 라우터
 import { useNavigate } from "react-router-dom";
+// 리액트 아이콘
+import { FaStar } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 
 const Searchbar = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -9,8 +12,8 @@ const Searchbar = () => {
   const [showResults, setShowResults] = useState(false); // 결과 보이기 여부
   const [bookDetails, setBookDetails] = useState({}); //검색 상세보기
   const [onFocus, setOnFocus] = useState(null); // 포커스 상태
-
   const navigate = useNavigate();
+  const [isbnError, setIsbnError] = useState("");
 
   const fetchBooks = async () => {
     const response = await fetch(
@@ -28,10 +31,17 @@ const Searchbar = () => {
     const response = await fetch(
       `http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${
         import.meta.env.VITE_BOOK_API
-      }&output=js&Version=20131101&itemIdType=ISBN13&ItemId=${itemId}&Cover=MidBig&OptResult=ebookList,usedList,reviewList`
+      }&output=js&Version=20131101&itemIdType=ISBN&ItemId=${itemId}&Cover=MidBig&OptResult=ebookList,usedList,reviewList,ratingInfo`
     );
     const data = await response.json();
-    setBookDetails({ ...bookDetails, [itemId]: data.item[0] });
+
+    //data.item[0] 요소가 비어있을 때 오류 방지
+    if (data.item && data.item.length > 0) {
+      setBookDetails({ ...bookDetails, [itemId]: data.item[0] });
+    } else {
+      //console.log(data.errorMessage);
+      setIsbnError(data.errorMessage);
+    }
   };
 
   //검색어 실시간 검색기능
@@ -50,6 +60,7 @@ const Searchbar = () => {
   //만약 검색창에 focus가 잡히지 않으면 사라짐
   const handleFocus = (itemId) => {
     if (searchValue.trim() !== "") {
+      setIsbnError("");
       setShowResults(true);
       fetchBookDetails(itemId);
       setOnFocus(itemId);
@@ -104,7 +115,7 @@ const Searchbar = () => {
               <ul>
                 {resultBooks.map((book) => (
                   <a key={book.itemId} href={book.link}>
-                    <li onMouseEnter={() => handleFocus(book.isbn13)}>
+                    <li onMouseEnter={() => handleFocus(book.isbn)}>
                       {book.title.trim().slice(0, 30) + "..."}
                     </li>
                   </a>
@@ -112,6 +123,7 @@ const Searchbar = () => {
               </ul>
             </div>
             <div className="resultDetail">
+              {isbnError[onFocus] && <p>{isbnError.errorMessage}</p>}
               {bookDetails[onFocus] && (
                 <>
                   <div className="resultDetailHead">
@@ -121,6 +133,7 @@ const Searchbar = () => {
                       </a>
                     </div>
                     <div>
+                      {}
                       <a
                         style={{
                           textDecoration: "none",
@@ -177,6 +190,15 @@ const Searchbar = () => {
                           }}
                         >
                           {bookDetails[onFocus].priceStandard}원
+                        </p>
+                        <p>
+                          <FaStar
+                            style={{ color: "#FFF78A", fontSize: "0.8rem" }}
+                          />
+                          <span style={{ fontSize: "0.8rem" }}>
+                            {" "}
+                            {`(${bookDetails[onFocus].customerReviewRank})`}
+                          </span>
                         </p>
                       </div>
                     </div>
