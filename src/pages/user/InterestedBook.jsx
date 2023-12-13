@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { auth, db } from "../../firebase";
-import "./UserPage.css";
 import {
   collection,
   deleteDoc,
