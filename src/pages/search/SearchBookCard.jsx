@@ -18,34 +18,8 @@ import { useEffect } from "react";
 
 const SeachBookCard = ({ book }) => {
   const [onHeart, setOnHeart] = useState(false); //하트 클릭 시 색상 변경
-  const [interestBook, setinterestBook] = useState(""); //관심도서 isbn
-  const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
   const user = auth.currentUser;
-
-  useEffect(() => {
-    const addInterestBook = async () => {
-      //console.log(interestBook);
-      if (isLoading || interestBook === "") return;
-
-      try {
-        setLoading(true); //로딩시작
-
-        //파이어 스토어에 저장
-        await addDoc(collection(db, "interestBooks"), {
-          interestBook, //BOOK ID
-          createdAt: Date.now(), // 생성일자 오늘
-          username: user.displayName, // 유저 이름
-          userId: user.uid, // 유저 아이디
-        });
-      } catch (e) {
-        console.log(e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    addInterestBook();
-  }, [interestBook]);
 
   //관심 도서에 추가 및 제거 트리거
   const handleClick = async () => {
@@ -66,7 +40,8 @@ const SeachBookCard = ({ book }) => {
           try {
             await addDoc(collection(db, "interestBooks"), {
               //컬렉션명 -interestBooks
-              interestBook: book.isbn, //BOOK ID
+              interestBook: book.isbn, //book id
+              booktitle: book.title, //book title
               createdAt: Date.now(), // 생성일자 오늘
               username: user.displayName, // 유저 이름
               userId: user.uid, // 유저 아이디
@@ -112,28 +87,31 @@ const SeachBookCard = ({ book }) => {
       }
     }
   };
+
   useEffect(() => {
     //관심목록 가져오는 함수
     const fetchInterestBooks = async () => {
       if (user) {
+        //유저가 있을 경우
         const q = query(
           collection(db, "interestBooks"),
-          where("userId", "==", user.uid)
+          where("userId", "==", user.uid) //로그인 한 유저와 동일한 데이터만
         );
 
-        const snapshot = await getDocs(q);
+        const snapshot = await getDocs(q); // 데이터를 다 가져올 때 까지 기다림
 
         const userInterestBooks = snapshot.docs.map(
           (doc) => doc.data().interestBook
         );
+
+        //가져온 관심 도서에 해당 되는 도서의 경우 ture로 리턴
         const isBookInInterest = userInterestBooks.includes(book.isbn);
         setOnHeart(isBookInInterest);
       }
-      //현재 로그인중인 유저의 관심 목록만 가져온다
     };
 
     fetchInterestBooks();
-  }, [book.isbn, user]); // 로그인 유저와 book.isbn 변경될 때 마다
+  }, [book.isbn, user]); // 로그인 유저와 book.isbn 변경될 때 마다 실행
 
   return (
     <>
