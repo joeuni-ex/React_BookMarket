@@ -21,6 +21,7 @@ const SeachBookCard = ({ book }) => {
   const navigate = useNavigate();
   const user = auth.currentUser;
 
+  console.log(book);
   //관심 도서에 추가 및 제거 트리거
   const handleClick = async () => {
     //일단 이미 관심 도서에 추가되어 있는지 확인한다.
@@ -117,6 +118,42 @@ const SeachBookCard = ({ book }) => {
     fetchInterestBooks();
   }, [book.isbn, user]); // 로그인 유저와 book.isbn 변경될 때 마다 실행
 
+  //장바구니에 추가
+  const AddCart = async () => {
+    if (confirm("장바구니에 추가하겠습니까?")) {
+      if (!user) {
+        //유저가 없으면(로그인 되어있지 않을 경우)
+        alert("로그인이 필요한 서비스입니다.");
+        navigate("/user/login"); //로그인 페이지로 이동
+      } else {
+        //DB에 저장한다.
+        try {
+          await addDoc(collection(db, "cart"), {
+            //컬렉션명 -interestBooks
+            interestBook: book.isbn, //book id
+            bookTitle: book.title, //book title
+            bookCover: book.cover, //book cover
+            bookLink: book.link, //book link
+            bookAuthor: book.author, //book author
+            bookPublisher: book.publisher, //book publisher
+            salesPrice: book.priceSales, // book sales Price
+            priceStandard: book.priceStandard,
+            createdAt: Date.now(), // 생성일자 오늘
+            username: user.displayName, // 유저 이름
+            userId: user.uid, // 유저 아이디
+          });
+        } catch (error) {
+          console.log(error); //에러는 콘솔에 출력
+        }
+      }
+      alert("장바구니에 추가되었습니다!");
+      // 1-2) 취소 클릭 - 리턴
+    } else {
+      alert("취소");
+      return;
+    }
+  };
+
   return (
     <>
       <div className="searchBook">
@@ -201,7 +238,7 @@ const SeachBookCard = ({ book }) => {
               />
             )}
           </div>
-          <button>장바구니</button>
+          <button onClick={AddCart}>장바구니</button>
           <button>구매하기</button>
         </div>
       </div>
