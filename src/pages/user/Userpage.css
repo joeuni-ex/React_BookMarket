@@ -1,0 +1,30 @@
+.userpageContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10%;
+}
+.aside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  height: 70%;
+  padding-top: 2%;
+}
+
+.aside ul li {
+  list-style: none;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.mypage {
+  display: flex;
+  flex-direction: column;
+  padding-top: 2%;
+  width: 70%;
+  height: 70%;
+}
