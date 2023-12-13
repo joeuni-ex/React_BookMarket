@@ -133,7 +133,6 @@ const Searchbar = () => {
                       </a>
                     </div>
                     <div>
-                      {}
                       <a
                         style={{
                           textDecoration: "none",
