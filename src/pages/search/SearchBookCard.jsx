@@ -47,47 +47,58 @@ const SeachBookCard = ({ book }) => {
     addInterestBook();
   }, [interestBook]);
 
-  //관심 추가
+  //관심 도서에 추가 및 제거 트리거
   const handleClick = async () => {
+    //일단 이미 관심 도서에 추가되어 있는지 확인한다.
+    // 1. 관심도서에 없는 도서의 경우
     if (!onHeart) {
+      //confirm 창으로 추가할건지 여부 물어봄
+      // 1-1) 확인 클릭
       if (confirm("관심 도서에 추가하겠습니까?")) {
         if (!user) {
+          //유저가 없으면(로그인 되어있지 않을 경우)
           alert("로그인이 필요한 서비스입니다.");
-          navigate("/user/login");
+          navigate("/user/login"); //로그인 페이지로 이동
         } else {
+          //로그인 되어있으면 하트 색상 변경하고
           setOnHeart(true);
-          // Update database directly here
+          //DB에 저장한다.
           try {
             await addDoc(collection(db, "interestBooks"), {
+              //컬렉션명 -interestBooks
               interestBook: book.isbn, //BOOK ID
               createdAt: Date.now(), // 생성일자 오늘
               username: user.displayName, // 유저 이름
               userId: user.uid, // 유저 아이디
             });
           } catch (error) {
-            console.log(error);
+            console.log(error); //에러는 콘솔에 출력
           }
         }
+        // 1-2) 취소 클릭 - 리턴
       } else {
         alert("취소");
         return;
       }
+      // 2. 이미 관심 도서에 있는 경우(삭제)
     } else if (onHeart) {
       if (confirm("관심 도서에서 제거하겠습니까?")) {
-        setOnHeart(false);
+        setOnHeart(false); //제거 확인 버튼 누르면 하트 색상 변경
+        //2-1)유저가 있으면(로그인)
         if (user) {
           try {
+            //쿼리문 작성
             const q = query(
-              collection(db, "interestBooks"),
-              where("userId", "==", user.uid),
-              where("interestBook", "==", book.isbn)
+              collection(db, "interestBooks"), // 삭제할 컬렉션 지정
+              where("userId", "==", user.uid), // 현재 로그인되어있는 유저와 같은 것
+              where("interestBook", "==", book.isbn) //book.isbn 으로 찾음
             );
             const querySnapshot = await getDocs(q);
 
             querySnapshot.forEach(async (doc) => {
               try {
-                await deleteDoc(doc.ref);
-                console.log("Deleted successfully!");
+                await deleteDoc(doc.ref); //삭제한다.
+                console.log("관심 도서 삭제 성공!");
               } catch (error) {
                 console.error("Error deleting document:", error);
               }
@@ -104,23 +115,25 @@ const SeachBookCard = ({ book }) => {
   useEffect(() => {
     //관심목록 가져오는 함수
     const fetchInterestBooks = async () => {
+      if (user) {
+        const q = query(
+          collection(db, "interestBooks"),
+          where("userId", "==", user.uid)
+        );
+
+        const snapshot = await getDocs(q);
+
+        const userInterestBooks = snapshot.docs.map(
+          (doc) => doc.data().interestBook
+        );
+        const isBookInInterest = userInterestBooks.includes(book.isbn);
+        setOnHeart(isBookInInterest);
+      }
       //현재 로그인중인 유저의 관심 목록만 가져온다
-      const q = query(
-        collection(db, "interestBooks"),
-        where("userId", "==", user.uid)
-      );
-
-      const snapshot = await getDocs(q);
-
-      const userInterestBooks = snapshot.docs.map(
-        (doc) => doc.data().interestBook
-      );
-      const isBookInInterest = userInterestBooks.includes(book.isbn);
-      setOnHeart(isBookInInterest);
     };
 
     fetchInterestBooks();
-  }, [book.isbn, user.uid]); // 로그인 유저와 book.isbn 변경될 때 마다
+  }, [book.isbn, user]); // 로그인 유저와 book.isbn 변경될 때 마다
 
   return (
     <>
