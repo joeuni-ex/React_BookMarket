@@ -31,9 +31,9 @@ const router = createBrowserRouter([
         //마이페이지는 회원만 사용 가능함
         path: "mypage",
         element: (
-          <ProtectedRoute>
-            <UserPage />
-          </ProtectedRoute>
+          //  <ProtectedRoute>
+          <UserPage />
+          //   </ProtectedRoute>
         ),
         errorElement: <NotFound />,
       },
