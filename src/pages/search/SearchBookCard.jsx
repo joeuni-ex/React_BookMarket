@@ -41,7 +41,11 @@ const SeachBookCard = ({ book }) => {
             await addDoc(collection(db, "interestBooks"), {
               //컬렉션명 -interestBooks
               interestBook: book.isbn, //book id
-              booktitle: book.title, //book title
+              bookTitle: book.title, //book title
+              bookCover: book.cover, //book cover
+              bookLink: book.link, //book link
+              bookAuthor: book.author, //book author
+              bookPublisher: book.publisher, //book publisher
               createdAt: Date.now(), // 생성일자 오늘
               username: user.displayName, // 유저 이름
               userId: user.uid, // 유저 아이디
