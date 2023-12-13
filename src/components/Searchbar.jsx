@@ -12,6 +12,7 @@ const Searchbar = () => {
   const [showResults, setShowResults] = useState(false); // 결과 보이기 여부
   const [bookDetails, setBookDetails] = useState({}); //검색 상세보기
   const [onFocus, setOnFocus] = useState(null); // 포커스 상태
+
   const navigate = useNavigate();
   const [isbnError, setIsbnError] = useState("");
 
