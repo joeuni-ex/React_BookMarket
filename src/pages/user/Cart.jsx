@@ -170,7 +170,7 @@ const Cart = () => {
                       <div>
                         <TiDeleteOutline
                           onClick={() => handleRemoveCart(cart.interestBook)}
-                          style={{ fontSize: "1.2rem", cursor: "pointer" }}
+                          style={{ fontSize: "1.5rem", cursor: "pointer" }}
                         />
                       </div>
 

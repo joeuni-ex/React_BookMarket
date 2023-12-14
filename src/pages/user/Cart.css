@@ -78,6 +78,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: end;
+  color: rgb(71, 71, 71);
 }
 .amountSection {
   display: flex;
