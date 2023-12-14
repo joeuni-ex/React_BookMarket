@@ -8,9 +8,11 @@ import Search from "./pages/search/Search";
 import HomeLayout from "./pages/layout/HomeLayout";
 import UserLayout from "./pages/layout/UserLayout";
 import UserPage from "./pages/user/UserPage";
-import ProtectedRoute from "./components/ProtectedRoute";
-import { auth } from "./firebase";
 import Cart from "./pages/user/Cart";
+import { useEffect } from "react";
+import { auth } from "./firebase";
+import { useState } from "react";
+import Spinner from "./pages/layout/Spinner";
 
 const router = createBrowserRouter([
   {
@@ -54,11 +56,19 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  );
+  const [isLoading, setIsLoading] = useState(true);
+  const init = async () => {
+    // 최초 인증 상태가 완료될 때 실행되는 Promise를 return
+    // Firebase가 쿠키와 토큰을 읽고 백엔드와 소통해서 로그인 여부를 확인하는 동안 기다림
+    await auth.authStateReady();
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  return <>{isLoading ? <Spinner /> : <RouterProvider router={router} />}</>;
 }
 
 export default App;
