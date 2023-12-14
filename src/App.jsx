@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { auth } from "./firebase";
 import { useState } from "react";
 import Spinner from "./pages/layout/Spinner";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -35,9 +36,9 @@ const router = createBrowserRouter([
         //마이페이지는 회원만 사용 가능함
         path: "mypage",
         element: (
-          //<ProtectedRoute>
-          <UserPage />
-          //</ProtectedRoute>
+          <ProtectedRoute>
+            <UserPage />
+          </ProtectedRoute>
         ),
         errorElement: <NotFound />,
       },
@@ -45,9 +46,9 @@ const router = createBrowserRouter([
         //장바구니는 회원만 사용 가능함
         path: "cart",
         element: (
-          //<ProtectedRoute>
-          <Cart />
-          //</ProtectedRoute>
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
         ),
         errorElement: <NotFound />,
       },
