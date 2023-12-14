@@ -9,6 +9,8 @@ import HomeLayout from "./pages/layout/HomeLayout";
 import UserLayout from "./pages/layout/UserLayout";
 import UserPage from "./pages/user/UserPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { auth } from "./firebase";
+import Cart from "./pages/user/Cart";
 
 const router = createBrowserRouter([
   {
@@ -31,9 +33,19 @@ const router = createBrowserRouter([
         //마이페이지는 회원만 사용 가능함
         path: "mypage",
         element: (
-          //  <ProtectedRoute>
+          //<ProtectedRoute>
           <UserPage />
-          //   </ProtectedRoute>
+          //</ProtectedRoute>
+        ),
+        errorElement: <NotFound />,
+      },
+      {
+        //장바구니는 회원만 사용 가능함
+        path: "cart",
+        element: (
+          //<ProtectedRoute>
+          <Cart />
+          //</ProtectedRoute>
         ),
         errorElement: <NotFound />,
       },
