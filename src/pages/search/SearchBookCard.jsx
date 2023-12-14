@@ -23,7 +23,7 @@ const SeachBookCard = ({ book }) => {
   const navigate = useNavigate();
   const user = auth.currentUser;
 
-  console.log(book);
+  //console.log(book);
   //관심 도서에 추가 및 제거 트리거
   const handleClick = async () => {
     //일단 이미 관심 도서에 추가되어 있는지 확인한다.
