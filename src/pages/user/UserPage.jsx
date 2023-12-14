@@ -3,9 +3,7 @@ import { auth } from "../../firebase";
 import "./UserPage.css";
 
 // 리액트 아이콘
-import { IoBookmarks } from "react-icons/io5";
 import InterestedBook from "./InterestedBook";
-import { FaUser } from "react-icons/fa";
 
 const UserPage = () => {
   const user = auth.currentUser;
@@ -28,20 +26,7 @@ const UserPage = () => {
         </ul>
       </div>
       <div className="mypage">
-        <h2>
-          {selectedMenu === "관심 도서" ? (
-            <IoBookmarks style={{ color: " #527853" }} />
-          ) : (
-            ""
-          )}
-          {selectedMenu === "내 정보" ? (
-            <FaUser style={{ color: " #527853" }} />
-          ) : (
-            ""
-          )}{" "}
-          {""}
-          {selectedMenu}
-        </h2>
+        <h2>{selectedMenu}</h2>
 
         <div className="mypageContent">
           {/* 관심 도서 컴포넌트 */}
