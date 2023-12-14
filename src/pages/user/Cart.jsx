@@ -43,8 +43,8 @@ const Cart = () => {
 
     //총 상품 수량 합계 구하기
     const sumAmount = () => {
-      const result = amount.reduce((prev, current) => {
-        return prev + current;
+      const result = userCart.reduce((prev, current) => {
+        return prev + current.amount;
       }, 0);
       setTotalAmount(result);
     };
@@ -140,7 +140,19 @@ const Cart = () => {
         <h2>장바구니</h2>
         <div className="cartMain">
           <div className="cartSection">
-            {userCart &&
+            {userCart.length === 0 ? (
+              <div
+                className="cart"
+                style={{
+                  height: "500px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <p>장바구니에 상품이 없습니다.</p>
+              </div>
+            ) : (
               userCart.map((cart, index) => (
                 <div className="cart" key={index}>
                   <div className="cartHeader"></div>
@@ -194,7 +206,8 @@ const Cart = () => {
                     </div>
                   </div>
                 </div>
-              ))}
+              ))
+            )}
           </div>
           <div className="paymentSection">
             <div className="payment">
