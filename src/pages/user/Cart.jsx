@@ -17,6 +17,9 @@ import { useEffect, useState } from "react";
 const Cart = () => {
   const user = auth.currentUser;
   const [userCart, setUserCart] = useState([]);
+  const [amount, setAmount] = useState([]); // 현재 장바구니의 상품 수량
+  const [price, setPrice] = useState([]); //현재 장바구니의 상품 가격
+  const [totalAmount, setTotalAmount] = useState(null);
 
   useEffect(() => {
     //장바구니 가져오는 함수
@@ -30,13 +33,27 @@ const Cart = () => {
         //실시간 가져오기
         onSnapshot(q, (snapshot) => {
           const userCart = snapshot.docs.map((doc) => doc.data());
+          const totalamount = snapshot.docs.map((doc) => doc.data().amount);
+          const totalPrice = snapshot.docs.map((doc) => doc.data().salesPrice);
           setUserCart(userCart);
+          setAmount(totalamount);
+          setPrice(totalPrice);
+          //console.log(totalPrice);
         });
       }
     };
 
+    //총 합계 구하기
+    const sumtest = () => {
+      const result = amount.reduce((prev, current) => {
+        return prev + current;
+      }, 0);
+      setTotalAmount(result);
+    };
+
     fetchUserCart();
-  }, [user]); // 로그인 유저가 변경 될 때마다 실행
+    sumtest();
+  }, [user, userCart]); // 로그인 유저가 변경 될 때마다 실행
 
   //console.log(userCart);
   //장바구니 삭제
@@ -108,6 +125,7 @@ const Cart = () => {
     //DB에서 플러스 처리하기
     updateCart(bookId, plusAmount);
   };
+
   return (
     <>
       <div className="cartContainer">
@@ -178,7 +196,7 @@ const Cart = () => {
               <div className="paymentBody">
                 <div>
                   <p>총 수량</p>
-                  <p>테스트</p>
+                  <p>{totalAmount}개</p>
                 </div>
                 <div>
                   <p>총 상품금액</p>
