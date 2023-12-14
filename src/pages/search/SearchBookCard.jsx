@@ -11,6 +11,7 @@ import {
   collection,
   deleteDoc,
   getDocs,
+  onSnapshot,
   query,
   where,
 } from "firebase/firestore";
@@ -18,6 +19,7 @@ import { useEffect } from "react";
 
 const SeachBookCard = ({ book }) => {
   const [onHeart, setOnHeart] = useState(false); //하트 클릭 시 색상 변경
+  const [onCart, setOnCart] = useState(false); // 장바구니 여부
   const navigate = useNavigate();
   const user = auth.currentUser;
 
@@ -94,7 +96,7 @@ const SeachBookCard = ({ book }) => {
   };
 
   useEffect(() => {
-    //관심목록 가져오는 함수
+    //관심도서 가져오는 함수
     const fetchInterestBooks = async () => {
       if (user) {
         //유저가 있을 경우
@@ -114,46 +116,75 @@ const SeachBookCard = ({ book }) => {
         setOnHeart(isBookInInterest);
       }
     };
+    //장바구니 목록 가져오기
+    const fetchCart = async () => {
+      if (user) {
+        //유저가 있을 경우
+        const q = query(
+          collection(db, "cart"),
+          where("userId", "==", user.uid)
+        );
+        onSnapshot(q, (snapshot) => {
+          const userCart = snapshot.docs.map((doc) => doc.data().interestBook);
+          //가져온 장바구니의 도서에 해당되는 경우 true로 리턴
+          const isCartAdded = userCart.includes(book.isbn);
+          setOnCart(isCartAdded);
+        });
+      }
+    };
 
     fetchInterestBooks();
+    fetchCart();
   }, [book.isbn, user]); // 로그인 유저와 book.isbn 변경될 때 마다 실행
 
   //장바구니에 추가
   const AddCart = async () => {
-    if (confirm("장바구니에 추가하겠습니까?")) {
-      if (!user) {
-        //유저가 없으면(로그인 되어있지 않을 경우)
-        alert("로그인이 필요한 서비스입니다.");
-        navigate("/user/login"); //로그인 페이지로 이동
-      } else {
-        //DB에 저장한다.
-        try {
-          await addDoc(collection(db, "cart"), {
-            //컬렉션명 -interestBooks
-            interestBook: book.isbn, //book id
-            bookTitle: book.title, //book title
-            bookCover: book.cover, //book cover
-            bookLink: book.link, //book link
-            bookAuthor: book.author, //book author
-            bookPublisher: book.publisher, //book publisher
-            salesPrice: book.priceSales, // book sales Price
-            priceStandard: book.priceStandard,
-            createdAt: Date.now(), // 생성일자 오늘
-            username: user.displayName, // 유저 이름
-            userId: user.uid, // 유저 아이디
-          });
-        } catch (error) {
-          console.log(error); //에러는 콘솔에 출력
+    if (!onCart) {
+      //장바구니에 추가되어있지 않으면
+      if (confirm("장바구니에 추가하겠습니까?")) {
+        if (!user) {
+          //유저가 없으면(로그인 되어있지 않을 경우)
+          alert("로그인이 필요한 서비스입니다.");
+          navigate("/user/login"); //로그인 페이지로 이동
+        } else {
+          //DB에 저장한다.
+          try {
+            await addDoc(collection(db, "cart"), {
+              //컬렉션명 -interestBooks
+              interestBook: book.isbn, //book id
+              bookTitle: book.title, //book title
+              bookCover: book.cover, //book cover
+              bookLink: book.link, //book link
+              bookAuthor: book.author, //book author
+              bookPublisher: book.publisher, //book publisher
+              salesPrice: book.priceSales, // book sales Price
+              amount: 1,
+              priceStandard: book.priceStandard,
+              createdAt: Date.now(), // 생성일자 오늘
+              username: user.displayName, // 유저 이름
+              userId: user.uid, // 유저 아이디
+            });
+          } catch (error) {
+            console.log(error); //에러는 콘솔에 출력
+          }
         }
+        alert("장바구니에 추가되었습니다!");
+        // 1-2) 취소 클릭 - 리턴
+      } else {
+        alert("취소");
+        return;
       }
-      alert("장바구니에 추가되었습니다!");
-      // 1-2) 취소 클릭 - 리턴
-    } else {
-      alert("취소");
-      return;
+    } else if (onCart) {
+      //이미 추가되어있으면
+      const ok = confirm(
+        "이미 장바구니에 추가되어 있습니다. 장바구니로 이동하시겠습니까?"
+      );
+
+      if (ok) {
+        navigate("/user/cart");
+      }
     }
   };
-
   return (
     <>
       <div className="searchBook">
