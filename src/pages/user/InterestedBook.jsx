@@ -85,11 +85,11 @@ const InterestedBook = () => {
               await deleteDoc(doc.ref); //삭제한다.
               setAddedCart(false);
             } catch (error) {
-              console.error("Error deleting document:", error);
+              console.error(error);
             }
           });
         } catch (error) {
-          console.error("Error querying document:", error);
+          console.error(error);
         }
       }
     }
@@ -125,6 +125,9 @@ const InterestedBook = () => {
         userId: user.uid, // 유저 아이디
       });
       alert("장바구니에 추가되었습니다!");
+      if (confirm("장바구니로 이동하시겠습니까?")) {
+        navigate("/user/cart");
+      }
       try {
         //쿼리문 작성
         const q = query(
@@ -144,7 +147,6 @@ const InterestedBook = () => {
       } catch (error) {
         console.error("Error querying document:", error);
       }
-      navigate("/user/cart");
     } catch (error) {
       console.log(error); //에러는 콘솔에 출력
     }
