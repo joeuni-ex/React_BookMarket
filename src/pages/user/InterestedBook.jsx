@@ -169,7 +169,7 @@ const InterestedBook = () => {
             </div>
             <div className="interestDetail">
               <a href={book.bookLink}>
-                <p>{book.bookTitle}</p>
+                <p>{book.bookTitle.trim().slice(0, 40)}</p>
               </a>
               <p>{book.bookAuthor.trim().slice(0, 16)}</p>
               <p>{book.salesPrice}원</p>
