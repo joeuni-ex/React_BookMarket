@@ -18,8 +18,8 @@ const Cart = () => {
   const user = auth.currentUser;
   const [userCart, setUserCart] = useState([]);
   const [amount, setAmount] = useState([]); // 현재 장바구니의 상품 수량
-  const [price, setPrice] = useState([]); //현재 장바구니의 상품 가격
-  const [totalAmount, setTotalAmount] = useState(null);
+  const [totalAmount, setTotalAmount] = useState(null); //수량 합계
+  const [totalPrice, setTotalPrice] = useState(null); //금액 합계
 
   useEffect(() => {
     //장바구니 가져오는 함수
@@ -33,26 +33,34 @@ const Cart = () => {
         //실시간 가져오기
         onSnapshot(q, (snapshot) => {
           const userCart = snapshot.docs.map((doc) => doc.data());
-          const totalamount = snapshot.docs.map((doc) => doc.data().amount);
-          const totalPrice = snapshot.docs.map((doc) => doc.data().salesPrice);
+          const amountResult = snapshot.docs.map((doc) => doc.data().amount);
           setUserCart(userCart);
-          setAmount(totalamount);
-          setPrice(totalPrice);
+          setAmount(amountResult);
           //console.log(totalPrice);
         });
       }
     };
 
-    //총 합계 구하기
-    const sumtest = () => {
+    //총 상품 수량 합계 구하기
+    const sumAmount = () => {
       const result = amount.reduce((prev, current) => {
         return prev + current;
       }, 0);
       setTotalAmount(result);
     };
 
+    //총 상품 금액 합계 구하기
+    const sumPrice = () => {
+      const result = userCart.reduce((prev, current, index) => {
+        //각 상품의 가격과 수량을 곱하여 합산한다.
+        const itemTotalPrice = current.salesPrice * amount[index];
+        return prev + itemTotalPrice;
+      }, 0);
+      setTotalPrice(result);
+    };
     fetchUserCart();
-    sumtest();
+    sumAmount();
+    sumPrice();
   }, [user, userCart]); // 로그인 유저가 변경 될 때마다 실행
 
   //console.log(userCart);
@@ -200,7 +208,7 @@ const Cart = () => {
                 </div>
                 <div>
                   <p>총 상품금액</p>
-                  <p>테스트</p>
+                  <p>{totalPrice}원</p>
                 </div>
                 <div>
                   <p>배송비</p>
@@ -208,7 +216,7 @@ const Cart = () => {
                 </div>
                 <div style={{ borderBottom: "none" }}>
                   <p>총 주문금액</p>
-                  <p>테스트</p>
+                  <p>{totalPrice + 2500}원</p>
                 </div>
               </div>
               <div className="paymentFooter">
