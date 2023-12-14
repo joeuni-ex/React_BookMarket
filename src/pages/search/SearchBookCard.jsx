@@ -49,7 +49,9 @@ const SeachBookCard = ({ book }) => {
               bookLink: book.link, //book link
               bookAuthor: book.author, //book author
               bookPublisher: book.publisher, //book publisher
-              salesPrice: book.priceSales, //book priceSales
+              salesPrice: book.priceSales, // book sales Price
+              amount: 1,
+              priceStandard: book.priceStandard,
               createdAt: Date.now(), // 생성일자 오늘
               username: user.displayName, // 유저 이름
               userId: user.uid, // 유저 아이디
