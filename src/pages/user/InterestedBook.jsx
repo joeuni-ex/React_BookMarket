@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { auth, db } from "../../firebase";
+import { TiDeleteOutline } from "react-icons/ti";
 import {
   collection,
   deleteDoc,
@@ -9,7 +10,6 @@ import {
   where,
 } from "firebase/firestore";
 // 리액트 아이콘
-import { MdBookmarkRemove } from "react-icons/md";
 
 const InterestedBook = () => {
   const user = auth.currentUser;
@@ -35,7 +35,7 @@ const InterestedBook = () => {
     fetchInterestBooks();
   }, [user]); // 로그인 유저가 변경 될 때마다 실행
 
-  // console.log(getInterestBook);
+  console.log(getInterestBook);
 
   const handleRemove = async (value) => {
     if (confirm("관심 도서에서 제거하겠습니까?")) {
@@ -70,16 +70,31 @@ const InterestedBook = () => {
     <>
       {getInterestBook.map((book, index) => (
         <div className="interestBook" key={index}>
-          <div className="interestBookContent">
-            <img src={book.bookCover} alt="관심도서" />
-            <span className="removeBook">
-              <MdBookmarkRemove
+          <div className="interestHeader">
+            <div className="removeBook">
+              <TiDeleteOutline
                 onClick={() => handleRemove(book.interestBook)}
               />
-            </span>
+            </div>
           </div>
-          <a href={book.bookLink}>{book.bookTitle.trim().slice(0, 15)}</a>
-          <p></p>
+          <div className="interestBookContent">
+            <div className="InterestImg">
+              <a href={book.bookLink}>
+                <img src={book.bookCover} alt="관심도서" />
+              </a>
+            </div>
+            <div className="interestDetail">
+              <a href={book.bookLink}>
+                <p>{book.bookTitle}</p>
+              </a>
+              <p>{book.bookAuthor}</p>
+              <p>{book.salesPrice}원</p>
+              <div className="interestBtnCon">
+                <div className="interestBtn">장바구니</div>
+              </div>
+            </div>
+          </div>
+          <div className="interestBookFooter"></div>
         </div>
       ))}
     </>
