@@ -33,6 +33,7 @@
   height: 400px;
   background-color: white;
   padding: 20px;
+  overflow: hidden;
 }
 /* 왼쪽 검색어 출력*/
 .resultTitle {

@@ -12,9 +12,9 @@ const Searchbar = () => {
   const [showResults, setShowResults] = useState(false); // 결과 보이기 여부
   const [bookDetails, setBookDetails] = useState({}); //검색 상세보기
   const [onFocus, setOnFocus] = useState(null); // 포커스 상태
-
   const navigate = useNavigate();
   const [isbnError, setIsbnError] = useState("");
+  const [link, setLink] = useState(""); //클릭 시 이동할 링크
 
   const fetchBooks = async () => {
     const response = await fetch(
@@ -59,17 +59,22 @@ const Searchbar = () => {
   useEffect(() => {}, [bookDetails]);
 
   //만약 검색창에 focus가 잡히지 않으면 사라짐
-  const handleFocus = (itemId) => {
+  const handleFocus = (itemId, link) => {
     if (searchValue.trim() !== "") {
       setIsbnError("");
       setShowResults(true);
       fetchBookDetails(itemId);
       setOnFocus(itemId);
+      setLink(link);
     }
   };
 
   const handleBlur = () => {
     setShowResults(false);
+    if (link === "") {
+      return;
+    }
+    location.href = link;
   };
 
   //submit 시
@@ -116,8 +121,11 @@ const Searchbar = () => {
               <ul>
                 {resultBooks.map((book) => (
                   <a key={book.itemId} href={book.link}>
-                    <li onMouseEnter={() => handleFocus(book.isbn)}>
-                      {book.title.trim().slice(0, 30) + "..."}
+                    <li
+                      onMouseEnter={() => handleFocus(book.isbn, book.link)}
+                      onMouseLeave={() => setLink("")}
+                    >
+                      {book.title.trim().slice(0, 30)}
                     </li>
                   </a>
                 ))}
@@ -129,7 +137,7 @@ const Searchbar = () => {
                 <>
                   <div className="resultDetailHead">
                     <div className="resultDetailCover">
-                      <a href={bookDetails[onFocus].link}>
+                      <a style={{ cursor: "pointer" }}>
                         <img src={bookDetails[onFocus].cover} alt="" />
                       </a>
                     </div>
@@ -138,8 +146,8 @@ const Searchbar = () => {
                         style={{
                           textDecoration: "none",
                           color: "black",
+                          cursor: "pointer",
                         }}
-                        href={bookDetails[onFocus].link}
                       >
                         <p
                           style={{
