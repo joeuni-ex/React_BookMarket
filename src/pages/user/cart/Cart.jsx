@@ -12,7 +12,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { auth, db } from "../../firebase";
+import { auth, db } from "../../../firebase";
 import { useEffect, useState } from "react";
 const Cart = () => {
   const user = auth.currentUser;
