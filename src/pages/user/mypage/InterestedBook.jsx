@@ -7,6 +7,7 @@ import {
   deleteDoc,
   getDocs,
   onSnapshot,
+  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -26,7 +27,8 @@ const InterestedBook = () => {
         //유저가 있을 경우
         const q = query(
           collection(db, "interestBooks"),
-          where("userId", "==", user.uid) //로그인 한 유저와 동일한 데이터만
+          where("userId", "==", user.uid), //로그인 한 유저와 동일한 데이터만
+          orderBy("createdAt", "desc") //최신순
         );
         //실시간 가져오기
         onSnapshot(q, (snapshot) => {
