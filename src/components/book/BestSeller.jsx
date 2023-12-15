@@ -23,8 +23,10 @@ const BestSeller = ({ type }) => {
   return (
     <>
       {books.map((book) => (
-        <div key={book.itemId}>
-          <p style={{ fontWeight: "bold" }}>{count++}</p>
+        <div className="bestSeller" key={book.itemId}>
+          <div>
+            <p style={{ fontWeight: "bold" }}>{count++}</p>
+          </div>
           <BookCard book={book} />
         </div>
       ))}
