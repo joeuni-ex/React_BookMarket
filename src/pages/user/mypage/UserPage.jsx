@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { auth } from "../../firebase";
+import { auth } from "../../../firebase";
 import "./UserPage.css";
 
 // 리액트 아이콘
@@ -22,7 +22,7 @@ const UserPage = () => {
         <ul>
           <li onClick={() => handleChange("관심 도서")}>관심 도서</li>
 
-          <li onClick={() => handleChange("내 정보")}>내 정보</li>
+          <li onClick={() => handleChange("주문/결제")}>주문/결제</li>
         </ul>
       </div>
       <div className="mypage">
