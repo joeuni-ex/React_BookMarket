@@ -40,7 +40,7 @@ const OrderSuccess = () => {
           }}
         >
           <div
-            onClick={() => navigate("/user/mypage")}
+            onClick={() => navigate("/user/mypage?order=true")}
             style={{
               display: "flex",
               justifyContent: "center",
