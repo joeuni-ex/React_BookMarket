@@ -1,25 +1,22 @@
-import "./Cart.css";
+import "./PaymentPage.css";
 // 리액트 아이콘
-import { TiDeleteOutline } from "react-icons/ti";
-import { FaPlus } from "react-icons/fa";
-import { FaMinus } from "react-icons/fa";
-import {
-  collection,
-  deleteDoc,
-  getDocs,
-  onSnapshot,
-  query,
-  updateDoc,
-  where,
-} from "firebase/firestore";
+import { GoTriangleRight } from "react-icons/go";
+// 파이어 베이스
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { auth, db } from "../../../firebase";
 import { useEffect, useState } from "react";
-const Cart = () => {
+//다음 주소 api
+import { useDaumPostcodePopup } from "react-daum-postcode";
+import { postcodeScriptUrl } from "react-daum-postcode/lib/loadPostcode";
+
+const PaymentPage = () => {
   const user = auth.currentUser;
   const [userCart, setUserCart] = useState([]);
   const [amount, setAmount] = useState([]); // 현재 장바구니의 상품 수량
   const [totalAmount, setTotalAmount] = useState(null); //수량 합계
   const [totalPrice, setTotalPrice] = useState(null); //금액 합계
+  const [userFullAddress, setFullAddress] = useState(""); //유저 주소
+  const [userZoneCode, setUserZoneCode] = useState(""); //유저 우편번호
 
   useEffect(() => {
     //장바구니 가져오는 함수
@@ -64,97 +61,110 @@ const Cart = () => {
   }, [user, userCart]); // 로그인 유저가 변경 될 때마다 실행
 
   //console.log(userCart);
-  //장바구니 삭제
-  const handleRemoveCart = async (value) => {
-    if (confirm("장바구니에서 삭제하겠습니까?")) {
-      //2-1)유저가 있으면(로그인)
-      if (user) {
-        try {
-          //쿼리문 작성
-          const q = query(
-            collection(db, "cart"), // 삭제할 컬렉션 지정
-            where("userId", "==", user.uid), // 현재 로그인되어있는 유저와 같은 것
-            where("interestBook", "==", value) //book.isbn 으로 찾음
-          );
-          const querySnapshot = await getDocs(q);
-          querySnapshot.forEach(async (doc) => {
-            try {
-              await deleteDoc(doc.ref); //삭제한다.
-              console.log("장바구니 삭제 성공!");
-            } catch (error) {
-              console.error("Error deleting document:", error);
-            }
-          });
-        } catch (error) {
-          console.error("Error querying document:", error);
-        }
+  const open = useDaumPostcodePopup(postcodeScriptUrl);
+
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = "";
+    let zonecode = data.zonecode;
+
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
       }
-    } else {
-      return;
-    }
-  };
-
-  // 수량 업데이트
-  const updateCart = async (bookId, amount) => {
-    //카트 컬렉션에서 인증 된 유저, 그리고 수량 선택하는 book의 id들어감
-    const q = query(
-      collection(db, "cart"),
-      where("userId", "==", user.uid),
-      where("interestBook", "==", bookId)
-    );
-
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach(async (doc) => {
-      try {
-        const docRef = doc.ref;
-        await updateDoc(docRef, { amount: amount });
-      } catch (error) {
-        console.error(error);
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
-    });
-  };
-
-  //수량 변경 - 마이너스
-  const handleMinus = (bookId, amount) => {
-    if (amount >= 2) {
-      const minusAmount = amount - 1;
-      //console.log(minusAmount);
-      //DB에서 마이너스 처리하기
-      updateCart(bookId, minusAmount);
-    } else {
-      alert("최소 1개 이상 구매가능합니다.");
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
+
+    setFullAddress(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    setUserZoneCode(zonecode);
   };
 
-  //수량 변경 - 플러스
-  const handlePlus = (bookId, amount) => {
-    const plusAmount = amount + 1;
-    //const plusAmount = num.toString();
-    //DB에서 플러스 처리하기
-    updateCart(bookId, plusAmount);
+  const handleClick = () => {
+    open({ onComplete: handleComplete });
   };
 
   return (
     <>
-      <div className="cartContainer">
-        <h2>장바구니</h2>
-        <div className="cartMain">
-          <div className="cartSection">
-            {userCart.length === 0 ? (
-              <div
-                className="cart"
-                style={{
-                  height: "500px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <p>장바구니에 상품이 없습니다.</p>
+      <div className="orderContainer">
+        <h2>결제하기</h2>
+        <br />
+        <div style={{ fontSize: "1.2rem" }}>
+          주문 <GoTriangleRight />{" "}
+          <span style={{ fontWeight: "bold" }}> 결제 </span>
+          <GoTriangleRight /> 완료
+        </div>
+        <div className="orderMain">
+          <div className="infoSection">
+            <form>
+              <p className="title">주문자 정보</p>
+              <p>
+                <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+                표시가 있는 항목은 필수 항목입니다.
+              </p>
+              <p className="formLabel">
+                이름 <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+              </p>
+              <input className="infoInput" type="text" required />
+              <p className="formLabel">
+                전화번호{" "}
+                <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+              </p>
+              <input className="infoInput" type="tel" name="" id="" required />
+              <p className="formLabel">이메일</p>
+              <input className="infoInput" type="email" name="" id="" />
+              <br />
+              <p style={{ marginTop: "30px" }} className="title">
+                배송지 정보
+              </p>
+              <p>
+                <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+                표시가 있는 항목은 필수 항목입니다.
+              </p>
+              <p className="formLabel">
+                수령인{" "}
+                <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+              </p>
+              <input className="infoInput" type="text" required />
+              <p className="formLabel">
+                주소 <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+              </p>
+              <label className="userZoneCode">
+                <input type="text" defaultValue={userZoneCode} required />
+                <button type="button" onClick={handleClick}>
+                  우편번호 검색
+                </button>
+              </label>
+              <br />
+              <input
+                className="infoInput"
+                type="text"
+                defaultValue={userFullAddress}
+                required
+              />
+              <br />
+              <input className="infoInput" type="text" placeholder="상세주소" />
+
+              <p className="formLabel">배송 메모</p>
+              <input
+                className="infoInput"
+                type="text"
+                placeholder="배송 메모를 선택해 주세요."
+              />
+              <br />
+              <div>
+                <input className="orderBtn" type="submit" value="결제하기" />
               </div>
-            ) : (
+            </form>
+          </div>
+          <div className="orderSection">
+            <p className="title">주문 상품</p>
+            {userCart &&
               userCart.map((cart, index) => (
-                <div className="cart" key={index}>
+                <div className="cartAdded" key={index}>
                   <div className="cartHeader"></div>
                   <div className="cartBody">
                     <div className="img">
@@ -165,34 +175,6 @@ const Cart = () => {
                       <p>{cart.bookTitle}</p>
                       <p>{cart.bookAuthor}</p>
                       <p>{cart.salesPrice}원</p>
-                    </div>
-                    <div className="cartDeleteIcon">
-                      <div>
-                        <TiDeleteOutline
-                          onClick={() => handleRemoveCart(cart.interestBook)}
-                          style={{ fontSize: "1.5rem", cursor: "pointer" }}
-                        />
-                      </div>
-
-                      <div className="amountSection">
-                        <div
-                          onClick={() =>
-                            handleMinus(cart.interestBook, cart.amount)
-                          }
-                          className="minus"
-                        >
-                          <FaMinus />
-                        </div>
-                        <div className="amount">{cart.amount}</div>
-                        <div
-                          onClick={() =>
-                            handlePlus(cart.interestBook, cart.amount)
-                          }
-                          className="plus"
-                        >
-                          <FaPlus />
-                        </div>
-                      </div>
                     </div>
                   </div>
                   <div className="cartFooter">
@@ -206,11 +188,8 @@ const Cart = () => {
                     </div>
                   </div>
                 </div>
-              ))
-            )}
-          </div>
-          <div className="paymentSection">
-            <div className="payment">
+              ))}
+            <div className="payment2">
               <div className="paymentHeader">
                 <p>주문 정보</p>
               </div>
@@ -232,9 +211,6 @@ const Cart = () => {
                   <p>{totalPrice + 2500}원</p>
                 </div>
               </div>
-              <div className="paymentFooter">
-                <div className="paymentBtn">주문하기</div>
-              </div>
             </div>
           </div>
         </div>
@@ -243,4 +219,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default PaymentPage;
