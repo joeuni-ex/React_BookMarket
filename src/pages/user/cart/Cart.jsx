@@ -138,7 +138,7 @@ const Cart = () => {
     updateCart(bookId, plusAmount);
   };
 
-  //결제하기 클릭 시
+  //주문하기 클릭 시
   const handleClickPayment = () => {
     if (userCart.length === 0) {
       alert("장바구니에 상품이 없습니다!");
