@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
-import "Swiper/css/pagination";
+import "swiper/css/pagination";
 import styled from "styled-components";
 import BannerItem from "./BannerItem";
 import { mainBanners } from "../../data";
