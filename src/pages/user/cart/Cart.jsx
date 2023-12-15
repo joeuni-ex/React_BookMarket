@@ -78,7 +78,8 @@ const Cart = () => {
           const q = query(
             collection(db, "cart"), // 삭제할 컬렉션 지정
             where("userId", "==", user.uid), // 현재 로그인되어있는 유저와 같은 것
-            where("interestBook", "==", value) //book.isbn 으로 찾음
+            where("interestBook", "==", value), //book.isbn 으로 찾음
+            where("order", "==", false) //주문 하기 전 상품
           );
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach(async (doc) => {
