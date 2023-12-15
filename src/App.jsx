@@ -15,6 +15,7 @@ import { useState } from "react";
 import Spinner from "./pages/layout/Spinner";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PaymentPage from "./pages/user/cart/PaymentPage";
+import OrderSuccess from "./pages/user/cart/OrderSuccess";
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
       { path: "join", element: <Join />, errorElement: <NotFound /> },
       { path: "login", element: <Login />, errorElement: <NotFound /> },
       {
-        //마이페이지는 회원만 사용 가능함
+        //회원만 사용 가능함
         path: "mypage",
         element: (
           <ProtectedRoute>
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
         errorElement: <NotFound />,
       },
       {
-        //장바구니는 회원만 사용 가능함
+        //회원만 사용 가능함
         path: "cart",
         element: (
           <ProtectedRoute>
@@ -54,11 +55,21 @@ const router = createBrowserRouter([
         errorElement: <NotFound />,
       },
       {
-        //장바구니는 회원만 사용 가능함
+        //회원만 사용 가능함
         path: "payment",
         element: (
           <ProtectedRoute>
             <PaymentPage />
+          </ProtectedRoute>
+        ),
+        errorElement: <NotFound />,
+      },
+      {
+        //회원만 사용 가능함
+        path: "success",
+        element: (
+          <ProtectedRoute>
+            <OrderSuccess />
           </ProtectedRoute>
         ),
         errorElement: <NotFound />,
