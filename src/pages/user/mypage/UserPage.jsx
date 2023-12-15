@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { auth } from "../../../firebase";
-import "./UserPage.css";
+import "./Userpage.css";
 
 // 리액트 아이콘
 import InterestedBook from "./InterestedBook";
