@@ -4,7 +4,7 @@ const BannerItem = ({ src }) => {
   return (
     <div className="bannerContent">
       <a href="/">
-        <p className="bannerText">오늘의 독서</p>
+        <p className="bannerText"></p>
         <div className="bannerImgContent">
           <img className="bannerImg" src="" alt="" />
         </div>
