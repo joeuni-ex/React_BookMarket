@@ -7,13 +7,14 @@ import Home from "./pages/Home";
 import Search from "./pages/search/Search";
 import HomeLayout from "./pages/layout/HomeLayout";
 import UserLayout from "./pages/layout/UserLayout";
-import UserPage from "./pages/user/UserPage";
-import Cart from "./pages/user/Cart";
+import UserPage from "./pages/user/mypage/UserPage";
+import Cart from "./pages/user/cart/Cart";
 import { useEffect } from "react";
 import { auth } from "./firebase";
 import { useState } from "react";
 import Spinner from "./pages/layout/Spinner";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PaymentPage from "./pages/user/cart/PaymentPage";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,16 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Cart />
+          </ProtectedRoute>
+        ),
+        errorElement: <NotFound />,
+      },
+      {
+        //장바구니는 회원만 사용 가능함
+        path: "payment",
+        element: (
+          <ProtectedRoute>
+            <PaymentPage />
           </ProtectedRoute>
         ),
         errorElement: <NotFound />,
