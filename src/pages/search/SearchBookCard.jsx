@@ -163,6 +163,7 @@ const SeachBookCard = ({ book }) => {
               salesPrice: book.priceSales, // book sales Price
               amount: 1,
               priceStandard: book.priceStandard,
+              order: false, //주문 여부
               createdAt: Date.now(), // 생성일자 오늘
               username: user.displayName, // 유저 이름
               userId: user.uid, // 유저 아이디
