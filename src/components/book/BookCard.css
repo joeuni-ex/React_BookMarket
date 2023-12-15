@@ -10,8 +10,8 @@
 .book > a > img {
   min-width: 160px;
   max-width: 160px;
-  min-height: 180px;
-  max-height: 180px;
+  min-height: 210px;
+  max-height: 210px;
   object-fit: cover;
 }
 
