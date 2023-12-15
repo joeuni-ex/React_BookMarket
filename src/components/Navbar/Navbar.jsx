@@ -31,7 +31,7 @@ const Navbar = () => {
     });
   };
 
-  console.log(user);
+  // console.log(user);
   return (
     <>
       <nav className="navbar">
