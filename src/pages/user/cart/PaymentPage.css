@@ -27,7 +27,7 @@
 }
 
 .infoSection form {
-  width: 90%;
+  width: 85%;
   height: 100%;
 }
 .title {
@@ -81,7 +81,7 @@
 
 /* 오른쪽 화면 */
 .cartAdded {
-  width: 600px;
+  width: 550px;
   height: 240px;
   background-color: rgb(243, 243, 243);
   margin-top: 20px;
@@ -157,7 +157,7 @@
 .orderSection .payment2 {
   display: flex;
   flex-direction: column;
-  width: 600px;
+  width: 550px;
   height: 400px;
   margin-top: 20px;
 }

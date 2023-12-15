@@ -2,12 +2,20 @@ import "./PaymentPage.css";
 // 리액트 아이콘
 import { GoTriangleRight } from "react-icons/go";
 // 파이어 베이스
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { auth, db } from "../../../firebase";
 import { useEffect, useState } from "react";
 //다음 주소 api
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { postcodeScriptUrl } from "react-daum-postcode/lib/loadPostcode";
+import { useNavigate } from "react-router-dom";
 
 const PaymentPage = () => {
   const user = auth.currentUser;
@@ -17,6 +25,7 @@ const PaymentPage = () => {
   const [totalPrice, setTotalPrice] = useState(null); //금액 합계
   const [userFullAddress, setFullAddress] = useState(""); //유저 주소
   const [userZoneCode, setUserZoneCode] = useState(""); //유저 우편번호
+  const navigate = useNavigate();
 
   useEffect(() => {
     //장바구니 가져오는 함수
@@ -25,7 +34,8 @@ const PaymentPage = () => {
         //유저가 있을 경우
         const q = query(
           collection(db, "cart"),
-          where("userId", "==", user.uid) //로그인 한 유저와 동일한 데이터만
+          where("userId", "==", user.uid), //로그인 한 유저와 동일한 데이터만
+          where("order", "==", false) //주문 하기 전 상품
         );
         //실시간 가져오기
         onSnapshot(q, (snapshot) => {
@@ -61,6 +71,8 @@ const PaymentPage = () => {
   }, [user, userCart]); // 로그인 유저가 변경 될 때마다 실행
 
   //console.log(userCart);
+
+  //다음 우편번호 찾기 API사용
   const open = useDaumPostcodePopup(postcodeScriptUrl);
 
   const handleComplete = (data) => {
@@ -87,6 +99,37 @@ const PaymentPage = () => {
     open({ onComplete: handleComplete });
   };
 
+  //결제하기 클릭 할 경우 문서의 order을 업데이트한다.
+  const handleOrderComplete = async (bookIds) => {
+    // 각각의 책(book) ID에 대해 주문을 완료합니다.
+    bookIds.forEach(async (bookId) => {
+      const q = query(
+        collection(db, "cart"),
+        where("userId", "==", user.uid),
+        where("interestBook", "==", bookId),
+        where("order", "==", false) //주문 하기 전 상품
+      );
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(async (doc) => {
+        try {
+          const docRef = doc.ref;
+          await updateDoc(docRef, { order: true });
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    });
+  };
+
+  //결제하기 클릭 시
+  const handleSubmit = () => {
+    const bookIds = userCart.map((cart) => cart.interestBook);
+    handleOrderComplete(bookIds);
+    alert("완료");
+    navigate("/user/success");
+  };
+
   return (
     <>
       <div className="orderContainer">
@@ -99,7 +142,7 @@ const PaymentPage = () => {
         </div>
         <div className="orderMain">
           <div className="infoSection">
-            <form>
+            <form onSubmit={handleSubmit}>
               <p className="title">주문자 정보</p>
               <p>
                 <span style={{ color: "red", fontWeight: "bold" }}>*</span>
