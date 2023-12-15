@@ -3,6 +3,8 @@ import "./Cart.css";
 import { TiDeleteOutline } from "react-icons/ti";
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa";
+import { GoTriangleRight } from "react-icons/go";
+// 파이어 베이스
 import {
   collection,
   deleteDoc,
@@ -14,12 +16,14 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../../../firebase";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 const Cart = () => {
   const user = auth.currentUser;
   const [userCart, setUserCart] = useState([]);
   const [amount, setAmount] = useState([]); // 현재 장바구니의 상품 수량
   const [totalAmount, setTotalAmount] = useState(null); //수량 합계
   const [totalPrice, setTotalPrice] = useState(null); //금액 합계
+  const navigate = useNavigate();
 
   useEffect(() => {
     //장바구니 가져오는 함수
@@ -134,10 +138,28 @@ const Cart = () => {
     updateCart(bookId, plusAmount);
   };
 
+  //결제하기 클릭 시
+  const handleClickPayment = () => {
+    if (userCart.length === 0) {
+      alert("장바구니에 상품이 없습니다!");
+      return;
+    } else if (userCart.length >= 1) {
+      if (confirm("주문하시겠습니까?")) {
+        navigate("/user/payment");
+      }
+      return;
+    }
+  };
+
   return (
     <>
       <div className="cartContainer">
         <h2>장바구니</h2>
+        <br />
+        <div style={{ fontSize: "1.2rem" }}>
+          <span style={{ fontWeight: "bold" }}>주문</span> <GoTriangleRight />{" "}
+          결제 <GoTriangleRight /> 완료
+        </div>
         <div className="cartMain">
           <div className="cartSection">
             {userCart.length === 0 ? (
@@ -233,7 +255,9 @@ const Cart = () => {
                 </div>
               </div>
               <div className="paymentFooter">
-                <div className="paymentBtn">주문하기</div>
+                <div onClick={handleClickPayment} className="paymentBtn">
+                  주문하기
+                </div>
               </div>
             </div>
           </div>
