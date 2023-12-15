@@ -99,8 +99,24 @@ const PaymentPage = () => {
     open({ onComplete: handleComplete });
   };
 
+  const generateRandomOrderNumber = () => {
+    // 랜덤 주문번호 생성 함수
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let result = "";
+    const charactersLength = characters.length;
+    const length = 8; // 주문번호 길이 설정
+
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+  };
+
   //결제하기 클릭 할 경우 문서의 order을 업데이트한다.
   const handleOrderComplete = async (bookIds) => {
+    const orderNumber = generateRandomOrderNumber(); // 랜덤 주문번호 생성
+
     // 각각의 책(book) ID에 대해 주문을 완료합니다.
     bookIds.forEach(async (bookId) => {
       const q = query(
@@ -114,7 +130,12 @@ const PaymentPage = () => {
       querySnapshot.forEach(async (doc) => {
         try {
           const docRef = doc.ref;
-          await updateDoc(docRef, { order: true });
+          await updateDoc(docRef, {
+            order: true, //주문완료
+            orderNumber: orderNumber, //주문번호
+            orderDate: Date.now(), //주문일자
+            orderState: "before", //배송전
+          });
         } catch (error) {
           console.error(error);
         }
@@ -124,10 +145,11 @@ const PaymentPage = () => {
 
   //결제하기 클릭 시
   const handleSubmit = () => {
-    const bookIds = userCart.map((cart) => cart.interestBook);
-    handleOrderComplete(bookIds);
-    alert("완료");
-    navigate("/user/success");
+    if (confirm("결제를 진행하시겠습니까?")) {
+      const bookIds = userCart.map((cart) => cart.interestBook);
+      handleOrderComplete(bookIds);
+      navigate("/user/success");
+    } else return;
   };
 
   return (
