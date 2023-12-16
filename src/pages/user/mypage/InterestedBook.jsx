@@ -122,6 +122,8 @@ const InterestedBook = () => {
         bookPublisher: book.bookPublisher, //book publisher
         salesPrice: book.salesPrice, // book sales Price
         amount: 1,
+        orderReady: false,
+        order: false,
         createdAt: Date.now(), // 생성일자 오늘
         username: user.displayName, // 유저 이름
         userId: user.uid, // 유저 아이디
