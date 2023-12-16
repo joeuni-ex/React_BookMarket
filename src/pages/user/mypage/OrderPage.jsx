@@ -8,9 +8,11 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../../../firebase";
 import { useEffect, useState } from "react";
+import Spinner from "../../layout/Spinner";
 
 const OrderPage = () => {
   const user = auth.currentUser;
+  const [isLoading, setIsLoading] = useState(true);
   const [userCart, setUserCart] = useState([]);
 
   useEffect(() => {
@@ -32,6 +34,7 @@ const OrderPage = () => {
           //console.log(totalPrice);
         });
       }
+      setIsLoading(false);
     };
 
     fetchUserCart();
@@ -40,49 +43,56 @@ const OrderPage = () => {
   console.log(userCart);
   return (
     <>
-      <div className="sortOrder">
-        <ul>
-          <li>주문번호</li>
-          <li>주문날짜</li>
-          <li id="orderTitle">상품명</li>
-          <li>개수</li>
-          <li>주문금액</li>
-          <li>주문상태</li>
-        </ul>
-      </div>
-      {userCart.length >= 1
-        ? userCart.map((order, index) => {
-            const orderDate =
-              order.orderDate && order.orderDate.toDate
-                ? order.orderDate.toDate()
-                : new Date(order.orderDate);
-            const formattedDate =
-              orderDate instanceof Date && !isNaN(orderDate)
-                ? orderDate.toLocaleDateString()
-                : "Invalid Date";
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          {" "}
+          <div className="sortOrder">
+            <ul>
+              <li>주문번호</li>
+              <li>주문날짜</li>
+              <li id="orderTitle">상품명</li>
+              <li>개수</li>
+              <li>주문금액</li>
+              <li>주문상태</li>
+            </ul>
+          </div>
+          {userCart.length >= 1
+            ? userCart.map((order, index) => {
+                const orderDate =
+                  order.orderDate && order.orderDate.toDate
+                    ? order.orderDate.toDate()
+                    : new Date(order.orderDate);
+                const formattedDate =
+                  orderDate instanceof Date && !isNaN(orderDate)
+                    ? orderDate.toLocaleDateString()
+                    : "Invalid Date";
 
-            return (
-              <div className="order" key={index}>
-                <div className="orderHeader"></div>
-                <div className="orderBody">
-                  <div className="orderBodyCon">{order.orderNumber}</div>
-                  <div className="orderBodyCon">{formattedDate}</div>
-                  <div className="orderBodyTitle">{order.bookTitle}</div>
-                  <div className="orderBodyCon">{order.amount}</div>
-                  <div className="orderBodyCon">
-                    {order.salesPrice * order.amount}
+                return (
+                  <div className="order" key={index}>
+                    <div className="orderHeader"></div>
+                    <div className="orderBody">
+                      <div className="orderBodyCon">{order.orderNumber}</div>
+                      <div className="orderBodyCon">{formattedDate}</div>
+                      <div className="orderBodyTitle">{order.bookTitle}</div>
+                      <div className="orderBodyCon">{order.amount}</div>
+                      <div className="orderBodyCon">
+                        {order.salesPrice * order.amount}
+                      </div>
+                      <div className="orderBodyCon">
+                        {order.orderState && order.orderState === "before"
+                          ? "배송전"
+                          : ""}
+                      </div>
+                    </div>
+                    <div className="orderFooter"></div>
                   </div>
-                  <div className="orderBodyCon">
-                    {order.orderState && order.orderState === "before"
-                      ? "배송전"
-                      : ""}
-                  </div>
-                </div>
-                <div className="orderFooter"></div>
-              </div>
-            );
-          })
-        : ""}
+                );
+              })
+            : ""}
+        </>
+      )}
     </>
   );
 };

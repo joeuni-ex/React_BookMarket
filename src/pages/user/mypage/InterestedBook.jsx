@@ -12,12 +12,14 @@ import {
   where,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../../layout/Spinner";
 // 리액트 아이콘
 
 const InterestedBook = () => {
   const user = auth.currentUser;
   const [getInterestBook, setGetInterestBook] = useState([]);
   const [addedCart, setAddedCart] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,6 +38,7 @@ const InterestedBook = () => {
           setGetInterestBook(userInterestBooks);
         });
       }
+      setIsLoading(false);
     };
 
     fetchInterestBooks();
@@ -158,42 +161,48 @@ const InterestedBook = () => {
 
   return (
     <>
-      {getInterestBook.map((book, index) => (
-        <div className="interestBook" key={index}>
-          <div className="interestHeader">
-            <div className="removeBook">
-              <TiDeleteOutline
-                onClick={() => handleRemove(book.interestBook)}
-              />
-            </div>
-          </div>
-          <div className="interestBookContent">
-            <div className="InterestImg">
-              <a href={book.bookLink}>
-                <img src={book.bookCover} alt="관심도서" />
-              </a>
-            </div>
-            <div className="interestDetail">
-              <a href={book.bookLink}>
-                <p>{book.bookTitle.trim().slice(0, 40)}</p>
-              </a>
-              <p>{book.bookAuthor.trim().slice(0, 16)}</p>
-              <p>{book.salesPrice}원</p>
-              <div className="interestBtnCon">
-                <div
-                  onClick={() => {
-                    AddCart(book);
-                  }}
-                  className="interestBtn"
-                >
-                  장바구니
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          {getInterestBook.map((book, index) => (
+            <div className="interestBook" key={index}>
+              <div className="interestHeader">
+                <div className="removeBook">
+                  <TiDeleteOutline
+                    onClick={() => handleRemove(book.interestBook)}
+                  />
                 </div>
               </div>
+              <div className="interestBookContent">
+                <div className="InterestImg">
+                  <a href={book.bookLink}>
+                    <img src={book.bookCover} alt="관심도서" />
+                  </a>
+                </div>
+                <div className="interestDetail">
+                  <a href={book.bookLink}>
+                    <p>{book.bookTitle.trim().slice(0, 40)}</p>
+                  </a>
+                  <p>{book.bookAuthor.trim().slice(0, 16)}</p>
+                  <p>{book.salesPrice}원</p>
+                  <div className="interestBtnCon">
+                    <div
+                      onClick={() => {
+                        AddCart(book);
+                      }}
+                      className="interestBtn"
+                    >
+                      장바구니
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="interestBookFooter"></div>
             </div>
-          </div>
-          <div className="interestBookFooter"></div>
-        </div>
-      ))}
+          ))}
+        </>
+      )}
     </>
   );
 };
