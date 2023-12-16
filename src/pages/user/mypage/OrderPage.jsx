@@ -27,7 +27,6 @@ const OrderPage = () => {
         //실시간 가져오기
         onSnapshot(q, (snapshot) => {
           const userCart = snapshot.docs.map((doc) => doc.data());
-          const amountResult = snapshot.docs.map((doc) => doc.data().amount);
           setUserCart(userCart);
 
           //console.log(totalPrice);
