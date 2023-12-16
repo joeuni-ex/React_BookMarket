@@ -8,10 +8,10 @@ import { useLocation } from "react-router-dom";
 import OrderPage from "./OrderPage";
 
 const UserPage = () => {
+  const user = auth.currentUser;
   const queryString = useLocation().search;
   const queryParams = new URLSearchParams(queryString);
   const query = queryParams.get("order"); // q에 해당하는 값을 쿼리스트링에서 가져옴
-  const user = auth.currentUser;
   const [selectedMenu, setSelectedMenu] = useState("관심 도서");
 
   //주문 완료에서 넘어올 때
