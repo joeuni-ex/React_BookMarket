@@ -163,7 +163,8 @@ const SeachBookCard = ({ book }) => {
               salesPrice: book.priceSales, // book sales Price
               amount: 1,
               priceStandard: book.priceStandard,
-              order: false, //주문 여부
+              order: false, //주문 완료 여부
+              orderReady: false, // 주문 준비 (결제 준비) 완료 여부
               createdAt: Date.now(), // 생성일자 오늘
               username: user.displayName, // 유저 이름
               userId: user.uid, // 유저 아이디
@@ -189,6 +190,44 @@ const SeachBookCard = ({ book }) => {
       }
     }
   };
+
+  const AddPayment = async () => {
+    if (confirm("해당 도서를 바로 구매하시겠습니까?")) {
+      if (!user) {
+        //유저가 없으면(로그인 되어있지 않을 경우)
+        alert("로그인이 필요한 서비스입니다.");
+        navigate("/user/login"); //로그인 페이지로 이동
+      } else {
+        //DB에 저장한다.
+        try {
+          await addDoc(collection(db, "cart"), {
+            //컬렉션명 -interestBooks
+            interestBook: book.isbn, //book id
+            bookTitle: book.title, //book title
+            bookCover: book.cover, //book cover
+            bookLink: book.link, //book link
+            bookAuthor: book.author, //book author
+            bookPublisher: book.publisher, //book publisher
+            salesPrice: book.priceSales, // book sales Price
+            amount: 1,
+            priceStandard: book.priceStandard,
+            order: false, //주문 완료 여부
+            orderReady: true, // 주문 준비 (결제 준비) 완료 여부
+            createdAt: Date.now(), // 생성일자 오늘
+            username: user.displayName, // 유저 이름
+            userId: user.uid, // 유저 아이디
+          });
+        } catch (error) {
+          console.log(error); //에러는 콘솔에 출력
+        }
+      }
+      navigate("/user/payment"); //결제 페이지로 이동
+    } else {
+      alert("취소");
+      return;
+    }
+  };
+
   return (
     <>
       <div className="searchBook">
@@ -274,7 +313,7 @@ const SeachBookCard = ({ book }) => {
             )}
           </div>
           <button onClick={AddCart}>장바구니</button>
-          <button>구매하기</button>
+          <button onClick={AddPayment}>구매하기</button>
         </div>
       </div>
     </>

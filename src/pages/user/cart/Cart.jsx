@@ -34,7 +34,8 @@ const Cart = () => {
         const q = query(
           collection(db, "cart"),
           where("userId", "==", user.uid), //로그인 한 유저와 동일한 데이터만
-          where("order", "==", false), //주문 하기 전 상품
+          where("order", "==", false), //주문 완료 여부
+          where("orderReady", "==", false), //주문 준비 완료 여부
           orderBy("createdAt", "desc") //최신순
         );
         //실시간 가져오기
@@ -143,6 +144,32 @@ const Cart = () => {
     updateCart(bookId, plusAmount);
   };
 
+  //주문하기 클릭 할 경우 문서의 orderReady을 업데이트한다.
+  const handleOrderReady = async (bookIds) => {
+    // 각각의 책(book) ID에 대해 주문을 완료합니다.
+    bookIds.forEach(async (bookId) => {
+      const q = query(
+        collection(db, "cart"),
+        where("userId", "==", user.uid),
+        where("interestBook", "==", bookId),
+        where("order", "==", false), //주문 하기 전 상품
+        where("orderReady", "==", false)
+      );
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(async (doc) => {
+        try {
+          const docRef = doc.ref;
+          await updateDoc(docRef, {
+            orderReady: true, //주문 준비 완료
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    });
+  };
+
   //주문하기 클릭 시
   const handleClickPayment = () => {
     if (userCart.length === 0) {
@@ -150,6 +177,8 @@ const Cart = () => {
       return;
     } else if (userCart.length >= 1) {
       if (confirm("주문하시겠습니까?")) {
+        const bookIds = userCart.map((cart) => cart.interestBook);
+        handleOrderReady(bookIds);
         navigate("/user/payment");
       }
       return;

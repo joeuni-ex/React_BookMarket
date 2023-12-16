@@ -35,7 +35,8 @@ const PaymentPage = () => {
         const q = query(
           collection(db, "cart"),
           where("userId", "==", user.uid), //로그인 한 유저와 동일한 데이터만
-          where("order", "==", false) //주문 하기 전 상품
+          where("order", "==", false), //주문 하기 전 상품
+          where("orderReady", "==", true)
         );
         //실시간 가져오기
         onSnapshot(q, (snapshot) => {
