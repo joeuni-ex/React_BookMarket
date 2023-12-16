@@ -21,7 +21,7 @@ export default () => {
     .swiper {
       z-index: 0;
       width: 1500px;
-      height: 600px;
+      height: 650px;
       overflow: hidden;
       padding-bottom: 0px;
       text-align: center;
