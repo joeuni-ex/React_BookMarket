@@ -15,7 +15,9 @@ import { useEffect, useState } from "react";
 //다음 주소 api
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { postcodeScriptUrl } from "react-daum-postcode/lib/loadPostcode";
+//리액트 라우터
 import { useNavigate } from "react-router-dom";
+import Spinner from "../../layout/Spinner";
 
 const PaymentPage = () => {
   const user = auth.currentUser;
@@ -25,6 +27,7 @@ const PaymentPage = () => {
   const [totalPrice, setTotalPrice] = useState(null); //금액 합계
   const [userFullAddress, setFullAddress] = useState(""); //유저 주소
   const [userZoneCode, setUserZoneCode] = useState(""); //유저 우편번호
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,6 +50,7 @@ const PaymentPage = () => {
           //console.log(totalPrice);
         });
       }
+      setIsLoading(false);
     };
 
     //총 상품 수량 합계 구하기
@@ -116,6 +120,7 @@ const PaymentPage = () => {
 
   //결제하기 클릭 할 경우 문서의 order을 업데이트한다.
   const handleOrderComplete = async (bookIds) => {
+    setIsLoading(true);
     const orderNumber = generateRandomOrderNumber(); // 랜덤 주문번호 생성
 
     // 각각의 책(book) ID에 대해 주문을 완료합니다.
@@ -137,6 +142,7 @@ const PaymentPage = () => {
             orderDate: Date.now(), //주문일자
             orderState: "before", //배송전
           });
+          setIsLoading(false);
         } catch (error) {
           console.error(error);
         }
@@ -155,132 +161,148 @@ const PaymentPage = () => {
 
   return (
     <>
-      <div className="orderContainer">
-        <h2>결제하기</h2>
-        <br />
-        <div style={{ fontSize: "1.2rem" }}>
-          주문 <GoTriangleRight />{" "}
-          <span style={{ fontWeight: "bold" }}> 결제 </span>
-          <GoTriangleRight /> 완료
-        </div>
-        <div className="orderMain">
-          <div className="infoSection">
-            <form onSubmit={handleSubmit}>
-              <p className="title">주문자 정보</p>
-              <p>
-                <span style={{ color: "red", fontWeight: "bold" }}>*</span>
-                표시가 있는 항목은 필수 항목입니다.
-              </p>
-              <p className="formLabel">
-                이름 <span style={{ color: "red", fontWeight: "bold" }}>*</span>
-              </p>
-              <input className="infoInput" type="text" required />
-              <p className="formLabel">
-                전화번호{" "}
-                <span style={{ color: "red", fontWeight: "bold" }}>*</span>
-              </p>
-              <input className="infoInput" type="tel" name="" id="" required />
-              <p className="formLabel">이메일</p>
-              <input className="infoInput" type="email" name="" id="" />
-              <br />
-              <p style={{ marginTop: "30px" }} className="title">
-                배송지 정보
-              </p>
-              <p>
-                <span style={{ color: "red", fontWeight: "bold" }}>*</span>
-                표시가 있는 항목은 필수 항목입니다.
-              </p>
-              <p className="formLabel">
-                수령인{" "}
-                <span style={{ color: "red", fontWeight: "bold" }}>*</span>
-              </p>
-              <input className="infoInput" type="text" required />
-              <p className="formLabel">
-                주소 <span style={{ color: "red", fontWeight: "bold" }}>*</span>
-              </p>
-              <label className="userZoneCode">
-                <input type="text" defaultValue={userZoneCode} required />
-                <button type="button" onClick={handleClick}>
-                  우편번호 검색
-                </button>
-              </label>
-              <br />
-              <input
-                className="infoInput"
-                type="text"
-                defaultValue={userFullAddress}
-                required
-              />
-              <br />
-              <input className="infoInput" type="text" placeholder="상세주소" />
-
-              <p className="formLabel">배송 메모</p>
-              <input
-                className="infoInput"
-                type="text"
-                placeholder="배송 메모를 선택해 주세요."
-              />
-              <br />
-              <div>
-                <input className="orderBtn" type="submit" value="결제하기" />
-              </div>
-            </form>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div className="orderContainer">
+          <h2>결제하기</h2>
+          <br />
+          <div style={{ fontSize: "1.2rem" }}>
+            주문 <GoTriangleRight />{" "}
+            <span style={{ fontWeight: "bold" }}> 결제 </span>
+            <GoTriangleRight /> 완료
           </div>
-          <div className="orderSection">
-            <p className="title">주문 상품</p>
-            {userCart &&
-              userCart.map((cart, index) => (
-                <div className="cartAdded" key={index}>
-                  <div className="cartHeader"></div>
-                  <div className="cartBody">
-                    <div className="img">
-                      <img src={cart.bookCover} alt="" />
-                    </div>
+          <div className="orderMain">
+            <div className="infoSection">
+              <form onSubmit={handleSubmit}>
+                <p className="title">주문자 정보</p>
+                <p>
+                  <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+                  표시가 있는 항목은 필수 항목입니다.
+                </p>
+                <p className="formLabel">
+                  이름{" "}
+                  <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+                </p>
+                <input className="infoInput" type="text" required />
+                <p className="formLabel">
+                  전화번호{" "}
+                  <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+                </p>
+                <input
+                  className="infoInput"
+                  type="tel"
+                  name=""
+                  id=""
+                  required
+                />
+                <p className="formLabel">이메일</p>
+                <input className="infoInput" type="email" name="" id="" />
+                <br />
+                <p style={{ marginTop: "30px" }} className="title">
+                  배송지 정보
+                </p>
+                <p>
+                  <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+                  표시가 있는 항목은 필수 항목입니다.
+                </p>
+                <p className="formLabel">
+                  수령인{" "}
+                  <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+                </p>
+                <input className="infoInput" type="text" required />
+                <p className="formLabel">
+                  주소{" "}
+                  <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+                </p>
+                <label className="userZoneCode">
+                  <input type="text" defaultValue={userZoneCode} required />
+                  <button type="button" onClick={handleClick}>
+                    우편번호 검색
+                  </button>
+                </label>
+                <br />
+                <input
+                  className="infoInput"
+                  type="text"
+                  defaultValue={userFullAddress}
+                  required
+                />
+                <br />
+                <input
+                  className="infoInput"
+                  type="text"
+                  placeholder="상세주소"
+                />
 
-                    <div className="cartBookDetail">
-                      <p>{cart.bookTitle}</p>
-                      <p>{cart.bookAuthor}</p>
-                      <p>{cart.salesPrice}원</p>
+                <p className="formLabel">배송 메모</p>
+                <input
+                  className="infoInput"
+                  type="text"
+                  placeholder="배송 메모를 선택해 주세요."
+                />
+                <br />
+                <div>
+                  <input className="orderBtn" type="submit" value="결제하기" />
+                </div>
+              </form>
+            </div>
+            <div className="orderSection">
+              <p className="title">주문 상품</p>
+              {userCart &&
+                userCart.map((cart, index) => (
+                  <div className="cartAdded" key={index}>
+                    <div className="cartHeader"></div>
+                    <div className="cartBody">
+                      <div className="img">
+                        <img src={cart.bookCover} alt="" />
+                      </div>
+
+                      <div className="cartBookDetail">
+                        <p>{cart.bookTitle}</p>
+                        <p>{cart.bookAuthor}</p>
+                        <p>{cart.salesPrice}원</p>
+                      </div>
+                    </div>
+                    <div className="cartFooter">
+                      <div>
+                        <p>
+                          상품금액 {cart.salesPrice}원 / 수량{cart.amount}개
+                        </p>
+                        <p style={{ fontWeight: "bold" }}>
+                          총 {cart.salesPrice * cart.amount}원
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <div className="cartFooter">
-                    <div>
-                      <p>
-                        상품금액 {cart.salesPrice}원 / 수량{cart.amount}개
-                      </p>
-                      <p style={{ fontWeight: "bold" }}>
-                        총 {cart.salesPrice * cart.amount}원
-                      </p>
-                    </div>
+                ))}
+              <div className="payment2">
+                <div className="paymentHeader">
+                  <p>주문 정보</p>
+                </div>
+                <div className="paymentBody">
+                  <div>
+                    <p>총 수량</p>
+                    <p>{totalAmount}개</p>
                   </div>
-                </div>
-              ))}
-            <div className="payment2">
-              <div className="paymentHeader">
-                <p>주문 정보</p>
-              </div>
-              <div className="paymentBody">
-                <div>
-                  <p>총 수량</p>
-                  <p>{totalAmount}개</p>
-                </div>
-                <div>
-                  <p>총 상품금액</p>
-                  <p>{totalPrice}원</p>
-                </div>
-                <div>
-                  <p>배송비</p>
-                  <p>2500원</p>
-                </div>
-                <div style={{ borderBottom: "none" }}>
-                  <p>총 주문금액</p>
-                  <p>{totalPrice + 2500}원</p>
+                  <div>
+                    <p>총 상품금액</p>
+                    <p>{totalPrice}원</p>
+                  </div>
+                  <div>
+                    <p>배송비</p>
+                    <p>2500원</p>
+                  </div>
+                  <div style={{ borderBottom: "none" }}>
+                    <p>총 주문금액</p>
+                    <p>{totalPrice + 2500}원</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

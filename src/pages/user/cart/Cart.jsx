@@ -18,12 +18,14 @@ import {
 import { auth, db } from "../../../firebase";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../../layout/Spinner";
 const Cart = () => {
   const user = auth.currentUser;
   const [userCart, setUserCart] = useState([]);
   const [amount, setAmount] = useState([]); // 현재 장바구니의 상품 수량
   const [totalAmount, setTotalAmount] = useState(null); //수량 합계
   const [totalPrice, setTotalPrice] = useState(null); //금액 합계
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,6 +49,7 @@ const Cart = () => {
           //console.log(totalPrice);
         });
       }
+      setIsLoading(false);
     };
 
     //총 상품 수량 합계 구하기
@@ -187,116 +190,120 @@ const Cart = () => {
 
   return (
     <>
-      <div className="cartContainer">
-        <h2>장바구니</h2>
-        <br />
-        <div style={{ fontSize: "1.2rem" }}>
-          <span style={{ fontWeight: "bold" }}>주문</span> <GoTriangleRight />{" "}
-          결제 <GoTriangleRight /> 완료
-        </div>
-        <div className="cartMain">
-          <div className="cartSection">
-            {userCart.length === 0 ? (
-              <div
-                className="cart"
-                style={{
-                  height: "500px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <p>장바구니에 상품이 없습니다.</p>
-              </div>
-            ) : (
-              userCart.map((cart, index) => (
-                <div className="cart" key={index}>
-                  <div className="cartHeader"></div>
-                  <div className="cartBody">
-                    <div className="img">
-                      <img src={cart.bookCover} alt="" />
-                    </div>
-
-                    <div className="cartBookDetail">
-                      <p>{cart.bookTitle}</p>
-                      <p>{cart.bookAuthor}</p>
-                      <p>{cart.salesPrice}원</p>
-                    </div>
-                    <div className="cartDeleteIcon">
-                      <div>
-                        <TiDeleteOutline
-                          onClick={() => handleRemoveCart(cart.interestBook)}
-                          style={{ fontSize: "1.5rem", cursor: "pointer" }}
-                        />
-                      </div>
-
-                      <div className="amountSection">
-                        <div
-                          onClick={() =>
-                            handleMinus(cart.interestBook, cart.amount)
-                          }
-                          className="minus"
-                        >
-                          <FaMinus />
-                        </div>
-                        <div className="amount">{cart.amount}</div>
-                        <div
-                          onClick={() =>
-                            handlePlus(cart.interestBook, cart.amount)
-                          }
-                          className="plus"
-                        >
-                          <FaPlus />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="cartFooter">
-                    <div>
-                      <p>
-                        상품금액 {cart.salesPrice}원 / 수량{cart.amount}개
-                      </p>
-                      <p style={{ fontWeight: "bold" }}>
-                        총 {cart.salesPrice * cart.amount}원
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div className="cartContainer">
+          <h2>장바구니</h2>
+          <br />
+          <div style={{ fontSize: "1.2rem" }}>
+            <span style={{ fontWeight: "bold" }}>주문</span> <GoTriangleRight />{" "}
+            결제 <GoTriangleRight /> 완료
           </div>
-          <div className="paymentSection">
-            <div className="payment">
-              <div className="paymentHeader">
-                <p>주문 정보</p>
-              </div>
-              <div className="paymentBody">
-                <div>
-                  <p>총 수량</p>
-                  <p>{totalAmount}개</p>
+          <div className="cartMain">
+            <div className="cartSection">
+              {userCart.length === 0 ? (
+                <div
+                  className="cart"
+                  style={{
+                    height: "500px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <p>장바구니에 상품이 없습니다.</p>
                 </div>
-                <div>
-                  <p>총 상품금액</p>
-                  <p>{totalPrice}원</p>
+              ) : (
+                userCart.map((cart, index) => (
+                  <div className="cart" key={index}>
+                    <div className="cartHeader"></div>
+                    <div className="cartBody">
+                      <div className="img">
+                        <img src={cart.bookCover} alt="" />
+                      </div>
+
+                      <div className="cartBookDetail">
+                        <p>{cart.bookTitle}</p>
+                        <p>{cart.bookAuthor}</p>
+                        <p>{cart.salesPrice}원</p>
+                      </div>
+                      <div className="cartDeleteIcon">
+                        <div>
+                          <TiDeleteOutline
+                            onClick={() => handleRemoveCart(cart.interestBook)}
+                            style={{ fontSize: "1.5rem", cursor: "pointer" }}
+                          />
+                        </div>
+
+                        <div className="amountSection">
+                          <div
+                            onClick={() =>
+                              handleMinus(cart.interestBook, cart.amount)
+                            }
+                            className="minus"
+                          >
+                            <FaMinus />
+                          </div>
+                          <div className="amount">{cart.amount}</div>
+                          <div
+                            onClick={() =>
+                              handlePlus(cart.interestBook, cart.amount)
+                            }
+                            className="plus"
+                          >
+                            <FaPlus />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="cartFooter">
+                      <div>
+                        <p>
+                          상품금액 {cart.salesPrice}원 / 수량{cart.amount}개
+                        </p>
+                        <p style={{ fontWeight: "bold" }}>
+                          총 {cart.salesPrice * cart.amount}원
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+            <div className="paymentSection">
+              <div className="payment">
+                <div className="paymentHeader">
+                  <p>주문 정보</p>
                 </div>
-                <div>
-                  <p>배송비</p>
-                  <p>2500원</p>
+                <div className="paymentBody">
+                  <div>
+                    <p>총 수량</p>
+                    <p>{totalAmount}개</p>
+                  </div>
+                  <div>
+                    <p>총 상품금액</p>
+                    <p>{totalPrice}원</p>
+                  </div>
+                  <div>
+                    <p>배송비</p>
+                    <p>2500원</p>
+                  </div>
+                  <div style={{ borderBottom: "none" }}>
+                    <p>총 주문금액</p>
+                    <p>{totalPrice + 2500}원</p>
+                  </div>
                 </div>
-                <div style={{ borderBottom: "none" }}>
-                  <p>총 주문금액</p>
-                  <p>{totalPrice + 2500}원</p>
-                </div>
-              </div>
-              <div className="paymentFooter">
-                <div onClick={handleClickPayment} className="paymentBtn">
-                  주문하기
+                <div className="paymentFooter">
+                  <div onClick={handleClickPayment} className="paymentBtn">
+                    주문하기
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
