@@ -25,10 +25,13 @@ const Navbar = () => {
   //console.log(user);
   //로그아웃 함수
   const logOut = () => {
-    auth.signOut().then(() => {
-      setLoggedIn(false);
-      navigate("/user/login");
-    });
+    if (confirm("로그아웃 하시겠습니까?")) {
+      auth.signOut().then(() => {
+        setLoggedIn(false);
+        navigate("/user/login");
+      });
+    }
+    return;
   };
 
   // console.log(user);
