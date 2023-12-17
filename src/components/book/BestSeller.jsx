@@ -24,7 +24,7 @@ const BestSeller = ({ type }) => {
     <>
       {books.map((book) => (
         <div className="bestSeller" key={book.itemId}>
-          <div>
+          <div style={{ display: "flex", height: "100%" }}>
             <p style={{ fontWeight: "bold" }}>{count++}</p>
           </div>
           <BookCard book={book} />
