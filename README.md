@@ -1,8 +1,34 @@
-# React + Vite
+# React + Vite Project -BOOKSTORE
+리액트 + FireBase + 알라딘API 를 활용한 북스토어입니다.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 💻 프로젝트 소개
 
-Currently, two official plugins are available:
+## ⚙️개발환경
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📌주요기능
+
+#### 로그인
+
+#### 회원가입
+
+#### 로그아웃
+
+
+#### 도서 실시간 검색 
+
+#### 도서 검색 
+
+
+#### 관심 도서 추가 
+
+#### 장바구니 추가
+
+#### 바로 결제 하기
+
+
+#### 마이페이지
+
+#### 관심 도서 조회
+
+#### 주문 목록 조회
+
