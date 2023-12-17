@@ -163,7 +163,7 @@ const InterestedBook = () => {
     <>
       {isLoading ? (
         <Spinner />
-      ) : (
+      ) : getInterestBook >= 1 ? (
         <>
           {getInterestBook.map((book, index) => (
             <div className="interestBook" key={index}>
@@ -202,6 +202,10 @@ const InterestedBook = () => {
             </div>
           ))}
         </>
+      ) : (
+        <div className="isNoData">
+          <p>추가된 관심 도서가 존재하지 않습니다.</p>
+        </div>
       )}
     </>
   );

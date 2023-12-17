@@ -40,57 +40,62 @@ const OrderPage = () => {
     fetchUserCart();
   }, [user]); // 로그인 유저가 변경 될 때마다 실행
 
-  console.log(userCart);
+  // console.log(userCart);
   return (
     <>
       {isLoading ? (
         <Spinner />
       ) : (
         <>
-          {" "}
-          <div className="sortOrder">
-            <ul>
-              <li>주문번호</li>
-              <li>주문날짜</li>
-              <li id="orderTitle">상품명</li>
-              <li>개수</li>
-              <li>주문금액</li>
-              <li>주문상태</li>
-            </ul>
-          </div>
-          {userCart.length >= 1
-            ? userCart.map((order, index) => {
-                const orderDate =
-                  order.orderDate && order.orderDate.toDate
-                    ? order.orderDate.toDate()
-                    : new Date(order.orderDate);
-                const formattedDate =
-                  orderDate instanceof Date && !isNaN(orderDate)
-                    ? orderDate.toLocaleDateString()
-                    : "Invalid Date";
+          <>
+            <div className="sortOrder">
+              <ul>
+                <li>주문번호</li>
+                <li>주문날짜</li>
+                <li id="orderTitle">상품명</li>
+                <li>개수</li>
+                <li>주문금액</li>
+                <li>주문상태</li>
+              </ul>
+            </div>
+          </>
+          {userCart.length >= 1 ? (
+            userCart.map((order, index) => {
+              const orderDate =
+                order.orderDate && order.orderDate.toDate
+                  ? order.orderDate.toDate()
+                  : new Date(order.orderDate);
+              const formattedDate =
+                orderDate instanceof Date && !isNaN(orderDate)
+                  ? orderDate.toLocaleDateString()
+                  : "Invalid Date";
 
-                return (
-                  <div className="order" key={index}>
-                    <div className="orderHeader"></div>
-                    <div className="orderBody">
-                      <div className="orderBodyCon">{order.orderNumber}</div>
-                      <div className="orderBodyCon">{formattedDate}</div>
-                      <div className="orderBodyTitle">{order.bookTitle}</div>
-                      <div className="orderBodyCon">{order.amount}</div>
-                      <div className="orderBodyCon">
-                        {order.salesPrice * order.amount}
-                      </div>
-                      <div className="orderBodyCon">
-                        {order.orderState && order.orderState === "before"
-                          ? "배송전"
-                          : ""}
-                      </div>
+              return (
+                <div className="order" key={index}>
+                  <div className="orderHeader"></div>
+                  <div className="orderBody">
+                    <div className="orderBodyCon">{order.orderNumber}</div>
+                    <div className="orderBodyCon">{formattedDate}</div>
+                    <div className="orderBodyTitle">{order.bookTitle}</div>
+                    <div className="orderBodyCon">{order.amount}</div>
+                    <div className="orderBodyCon">
+                      {order.salesPrice * order.amount}
                     </div>
-                    <div className="orderFooter"></div>
+                    <div className="orderBodyCon">
+                      {order.orderState && order.orderState === "before"
+                        ? "배송전"
+                        : ""}
+                    </div>
                   </div>
-                );
-              })
-            : ""}
+                  <div className="orderFooter"></div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="isNoData">
+              <p>주문 내역이 존재하지 않습니다.</p>
+            </div>
+          )}
         </>
       )}
     </>
