@@ -172,8 +172,9 @@ const SeachBookCard = ({ book }) => {
           } catch (error) {
             console.log(error); //에러는 콘솔에 출력
           }
+          alert("장바구니에 추가되었습니다!");
         }
-        alert("장바구니에 추가되었습니다!");
+
         // 1-2) 취소 클릭 - 리턴
       } else {
         alert("취소");
