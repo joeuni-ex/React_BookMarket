@@ -163,7 +163,7 @@ const InterestedBook = () => {
     <>
       {isLoading ? (
         <Spinner />
-      ) : getInterestBook >= 1 ? (
+      ) : getInterestBook.length >= 1 ? (
         <>
           {getInterestBook.map((book, index) => (
             <div className="interestBook" key={index}>
