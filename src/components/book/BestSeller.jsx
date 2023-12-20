@@ -5,7 +5,9 @@ import apiClient from "../../utils/api-client";
 import useData from "../../Hook/useData";
 
 const BestSeller = ({ type }) => {
-  const { data: bestSeller, error } = useData("/ItemList.aspx");
+  const { data: bestSeller, error } = useData(
+    `/ItemList.aspx?queryType=${type}`
+  );
 
   let count = 1;
   return (
