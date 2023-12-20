@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import apiClient from "../utils/api-client";
 
-const useData = (url) => {
+const useData = (endpoint, customConfig, deps) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    apiClient
-      .get(url)
-      .then((res) => setData(res.data))
-      .catch((err) => setError(err.message));
-  }, []);
+  useEffect(
+    () => {
+      apiClient
+        .get(endpoint)
+        .then((res) => setData(res.data))
+        .catch((err) => setError(err.message));
+    },
+    deps ? deps : []
+  );
 
   return { data, error };
 };

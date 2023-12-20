@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 // 리액트 아이콘
 import { FaStar } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
+import apiClient from "../utils/api-client";
 
 const Searchbar = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -16,15 +17,14 @@ const Searchbar = () => {
   const [isbnError, setIsbnError] = useState("");
   const [link, setLink] = useState(""); //클릭 시 이동할 링크
 
+  const [data, setData] = useState([]);
+  const [error, setError] = useState("");
+
   const fetchBooks = async () => {
-    const response = await fetch(
-      `http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${
-        import.meta.env.VITE_BOOK_API
-      }&Query=${searchValue}&QueryType=title&MaxResults=7&start=1&SearchTarget=Book&Cover=Big&output=js&Version=20131101`
-    );
-    const data = await response.json();
-    setResultBooks(data.item);
-    // console.log(resultBooks);
+    apiClient
+      .get(`/ItemSearch.aspx?Query=${searchValue}`)
+      .then((res) => setResultBooks(res.data))
+      .catch((err) => setError(err.message));
   };
 
   //실시간 검색 상세보기
