@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
 import "./BookList.css";
 import BookCard from "./BookCard";
-import apiClient from "../../utils/api-client";
 import useData from "../../Hook/useData";
 
 const BestSeller = ({ type }) => {
