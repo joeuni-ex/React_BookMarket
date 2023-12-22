@@ -16,8 +16,6 @@ const Searchbar = () => {
   const navigate = useNavigate();
   const [isbnError, setIsbnError] = useState("");
   const [link, setLink] = useState(""); //클릭 시 이동할 링크
-
-  const [data, setData] = useState([]);
   const [error, setError] = useState("");
 
   const fetchBooks = async () => {
@@ -29,20 +27,15 @@ const Searchbar = () => {
 
   //실시간 검색 상세보기
   const fetchBookDetails = async (itemId) => {
-    const response = await fetch(
-      `http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${
-        import.meta.env.VITE_BOOK_API
-      }&output=js&Version=20131101&itemIdType=ISBN&ItemId=${itemId}&Cover=MidBig&OptResult=ebookList,usedList,reviewList,ratingInfo`
-    );
-    const data = await response.json();
-
-    //data.item[0] 요소가 비어있을 때 오류 방지
-    if (data.item && data.item.length > 0) {
-      setBookDetails({ ...bookDetails, [itemId]: data.item[0] });
-    } else {
-      //console.log(data.errorMessage);
-      setIsbnError(data.errorMessage);
-    }
+    apiClient
+      .get(`/ItemLookUp.aspx?itemId=${itemId}`)
+      .then(
+        (res) =>
+          res &&
+          res.length >
+            0(setBookDetails({ ...bookDetails, [itemId]: res.data[0] }))
+      )
+      .catch((err) => setIsbnError(err.message));
   };
 
   //검색어 실시간 검색기능
@@ -93,7 +86,6 @@ const Searchbar = () => {
   //검색어 입력 시
   const handleChange = (e) => {
     setSearchValue(e.target.value);
-    //console.log(searchValue);
   };
 
   return (
@@ -137,7 +129,7 @@ const Searchbar = () => {
                 <>
                   <div className="resultDetailHead">
                     <div className="resultDetailCover">
-                      <a style={{ cursor: "pointer" }}>
+                      <a onClick={handleBlur} style={{ cursor: "pointer" }}>
                         <img src={bookDetails[onFocus].cover} alt="" />
                       </a>
                     </div>
