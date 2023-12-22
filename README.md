@@ -5,12 +5,12 @@
 도서 검색과 관심 도서 추가, 장바구니 추가 및 주문하기가 가능한 북스토어입니다. 
 
 ## ⚙️개발환경
-*** Front-end ***
+**Front-end**
 - React (Vite)
 - Database : firebase 10
 - axios 라이브러리로 서버통신 관리
   
-*** Back-end ***
+**Back-end**
 - express  : CORS 이슈 발생으로 직접 알라딘 API를 호출하는 데 제약이 발생하여 이 문제를 해결하기 위해 Express 서버를 도입해 CORS 미들웨어를 사용하여 문제를 해결했습니다.
 - API
 
