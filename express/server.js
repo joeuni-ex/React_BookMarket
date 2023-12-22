@@ -24,8 +24,6 @@ app.get("/ItemList.aspx", async (req, res) => {
     // 응답을 받으면 클라이언트에게 전달
     if (result) {
       res.status(200).json(result); // Sending 'result' as JSON response
-    } else {
-      res.status(500).send("Internal Server Error");
     }
   } catch (err) {
     console.log(err);
@@ -47,8 +45,6 @@ app.get("/ItemSearch.aspx", async (req, res) => {
     // 응답을 받으면 클라이언트에게 전달
     if (result) {
       res.status(200).json(result); // Sending 'result' as JSON response
-    } else {
-      res.status(500).send("Internal Server Error");
     }
   } catch (err) {
     console.log(err);
@@ -70,8 +66,6 @@ app.get("/ItemLookUp.aspx", async (req, res) => {
     // 응답을 받으면 클라이언트에게 전달
     if (result) {
       res.status(200).json(result); // Sending 'result' as JSON response
-    } else {
-      res.status(500).send("Internal Server Error");
     }
   } catch (err) {
     console.log(err);
