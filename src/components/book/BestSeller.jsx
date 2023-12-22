@@ -3,9 +3,7 @@ import BookCard from "./BookCard";
 import useData from "../../Hook/useData";
 
 const BestSeller = ({ type }) => {
-  const { data: bestSeller, error } = useData(
-    `/ItemList.aspx?queryType=${type}`
-  );
+  const { data: bestSeller, error } = useData(`/ItemList?queryType=${type}`);
 
   let count = 1;
   return (

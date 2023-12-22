@@ -3,6 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 // import "../../components/BookList.css";
 import "./Search.css";
 import SeachBookCard from "./SearchBookCard";
+import apiClient from "../../utils/api-client";
 
 const Search = () => {
   //검색어로 넘어오는 파라미터 가져오기
@@ -25,15 +26,13 @@ const Search = () => {
 
   const fetchBooks = async () => {
     setIsLoading(true);
-    const response = await fetch(
-      `http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${
-        import.meta.env.VITE_BOOK_API
-      }&Query=${query}&QueryType=title&MaxResults=${maxResults}&start=1&SearchTarget=Book&Cover=Big&Sort=${sort}&output=js&Version=20131101`
-    );
-    const data = await response.json();
-    setResultBooks(data.item);
+    apiClient
+      .get(
+        `/ItemSearchPage?Query=${query}&MaxResults=${maxResults}&Sort=${sort}`
+      )
+      .then((res) => setResultBooks(res.data))
+      .catch((err) => setError(err.message));
     setIsLoading(false);
-    //console.log(resultBooks);
   };
 
   //정렬하기

@@ -20,7 +20,7 @@ const Searchbar = () => {
 
   const fetchBooks = async () => {
     apiClient
-      .get(`/ItemSearch.aspx?Query=${searchValue}`)
+      .get(`/ItemSearch?Query=${searchValue}`)
       .then((res) => setResultBooks(res.data))
       .catch((err) => setError(err.message));
   };
@@ -28,7 +28,7 @@ const Searchbar = () => {
   //실시간 검색 상세보기
   const fetchBookDetails = async (itemId) => {
     apiClient
-      .get(`/ItemLookUp.aspx?itemId=${itemId}`)
+      .get(`/ItemLookUp?itemId=${itemId}`)
       .then(
         (res) =>
           res &&
@@ -129,7 +129,11 @@ const Searchbar = () => {
                 <>
                   <div className="resultDetailHead">
                     <div className="resultDetailCover">
-                      <a onClick={handleBlur} style={{ cursor: "pointer" }}>
+                      <a
+                        style={{
+                          cursor: "pointer",
+                        }}
+                      >
                         <img src={bookDetails[onFocus].cover} alt="" />
                       </a>
                     </div>
