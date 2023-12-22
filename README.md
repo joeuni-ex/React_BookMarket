@@ -1,13 +1,18 @@
 # React + Vite Project -BOOKSTORE
 리액트 + FireBase + 알라딘API 를 활용한 웹 프로젝트 
-- 화면이 나오지 않을 경우 Cors 확장 프로그램 설치 후 사용 필요 
 
 ## 💻 프로젝트 소개
 도서 검색과 관심 도서 추가, 장바구니 추가 및 주문하기가 가능한 북스토어입니다. 
 
 ## ⚙️개발환경
+*** Front-end ***
 - React (Vite)
 - Database : firebase 10
+- axios 라이브러리로 서버통신 관리
+  
+*** Back-end ***
+- express  : CORS 이슈 발생으로 직접 알라딘 API를 호출하는 데 제약이 발생하여 이 문제를 해결하기 위해 Express 서버를 도입해 CORS 미들웨어를 사용하여 문제를 해결했습니다.
+- API
 
 ## 📌주요기능
 
