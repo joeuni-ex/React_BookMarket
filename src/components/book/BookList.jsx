@@ -14,7 +14,7 @@ const BookList = ({ type }) => {
   return (
     <>
       {error && <em>{error}</em>}
-      {isLoading && skeletons.map((n) => <BookCardSkeleton />)}
+      {isLoading && skeletons.map((n) => <BookCardSkeleton key={n} />)}
       {books.map((book) => (
         <BookCard key={book.itemId} book={book} />
       ))}

@@ -17,11 +17,15 @@ const Searchbar = () => {
   const [isbnError, setIsbnError] = useState("");
   const [link, setLink] = useState(""); //클릭 시 이동할 링크
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchBooks = async () => {
     apiClient
       .get(`/ItemSearch?Query=${searchValue}`)
-      .then((res) => setResultBooks(res.data))
+      .then((res) => {
+        setResultBooks(res.data);
+        setIsLoading(false);
+      })
       .catch((err) => setError(err.message));
   };
 
@@ -29,12 +33,11 @@ const Searchbar = () => {
   const fetchBookDetails = async (itemId) => {
     apiClient
       .get(`/ItemLookUp?itemId=${itemId}`)
-      .then(
-        (res) =>
-          res &&
+      .then((res) => {
+        res &&
           res.length >
-            0(setBookDetails({ ...bookDetails, [itemId]: res.data[0] }))
-      )
+            0(setBookDetails({ ...bookDetails, [itemId]: res.data[0] }));
+      })
       .catch((err) => setIsbnError(err.message));
   };
 
@@ -111,6 +114,7 @@ const Searchbar = () => {
           <div className="resultBooks">
             <div className="resultTitle">
               <ul>
+                {isLoading ? <p>검색중..</p> : ""}
                 {resultBooks.map((book) => (
                   <a key={book.itemId} href={book.link}>
                     <li

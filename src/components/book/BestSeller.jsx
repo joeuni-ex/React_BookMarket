@@ -19,7 +19,7 @@ const BestSeller = ({ type }) => {
   return (
     <>
       {error && <em>{error}</em>}
-      {isLoading && skeletons.map((n) => <BookCardSkeleton />)}
+      {isLoading && skeletons.map((n) => <BookCardSkeleton key={n} />)}
       {bestSeller.map((book) => (
         <div className="bestSeller" key={book.itemId}>
           <div style={{ display: "flex", height: "100%" }}>
