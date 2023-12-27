@@ -14,7 +14,7 @@ const Search = () => {
   const [sort, setSort] = useState("Accuracy"); //정렬
   const [selectedSort, setSelectedSort] = useState("Accuracy"); //선택된 정렬
   const [maxResults, setMaxResults] = useState("15"); //최대 출력
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {}, [selectedSort]); //정렬이 변경 될 때마다 실행(정렬 버튼의 active효과)
 
@@ -25,14 +25,15 @@ const Search = () => {
   //
 
   const fetchBooks = async () => {
-    setIsLoading(true);
     apiClient
       .get(
         `/ItemSearchPage?Query=${query}&MaxResults=${maxResults}&Sort=${sort}`
       )
-      .then((res) => setResultBooks(res.data))
+      .then((res) => {
+        setResultBooks(res.data);
+        setIsLoading(false);
+      })
       .catch((err) => setError(err.message));
-    setIsLoading(false);
   };
 
   //정렬하기
@@ -91,10 +92,10 @@ const Search = () => {
         </select>
       </div>
       <div className="searchBookList">
+        {isLoading && <em>로딩중...</em>}
         {resultBooks.map((book) => (
           <SeachBookCard key={book.itemId} book={book} />
         ))}
-        {isLoading && <p>로딩중...</p>}
       </div>
     </>
   );
